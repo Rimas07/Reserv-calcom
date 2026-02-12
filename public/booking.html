@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Urologicka klinika Praha - Online rezervace</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f4f8;color:#1e293b;min-height:100vh}
+.container{max-width:480px;margin:0 auto;padding:16px;min-height:100vh}
+.screen{display:none}
+.screen.active{display:block}
+h1{font-size:1.5rem;color:#1e293b;margin-bottom:8px}
+h2{font-size:1.25rem;color:#1e293b;margin-bottom:12px}
+h3{font-size:1.1rem;color:#475569;margin:16px 0 8px}
+.card{background:#fff;border-radius:12px;padding:20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.banner{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;border-radius:12px;padding:16px;margin-bottom:16px;text-align:center;font-weight:600}
+.btn{display:inline-block;background:#2563eb;color:#fff;border:none;padding:14px 24px;border-radius:10px;font-size:1rem;font-weight:600;cursor:pointer;width:100%;text-align:center;transition:background .2s}
+.btn:hover{background:#1d4ed8}
+.btn:disabled{background:#94a3b8;cursor:not-allowed}
+.btn-outline{background:transparent;color:#2563eb;border:2px solid #2563eb}
+.btn-outline:hover{background:#eff6ff}
+.btn-sm{padding:10px 16px;font-size:.9rem;width:auto}
+.btn-back{background:transparent;color:#64748b;border:none;padding:8px 0;cursor:pointer;font-size:.9rem;margin-bottom:12px;display:flex;align-items:center;gap:4px}
+.info-row{display:flex;align-items:center;gap:8px;padding:8px 0;color:#475569;font-size:.9rem}
+.info-row b{color:#1e293b}
+.services-list{list-style:none;padding:0}
+.services-list li{padding:10px 0;border-bottom:1px solid #e2e8f0;font-size:.95rem}
+.services-list li:last-child{border:none}
+.insurance-tags{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.insurance-tag{background:#eff6ff;color:#2563eb;padding:4px 10px;border-radius:6px;font-size:.8rem;font-weight:500}
+.doctor-card{background:#fff;border:2px solid #e2e8f0;border-radius:12px;padding:16px;margin-bottom:12px;cursor:pointer;transition:border-color .2s}
+.doctor-card:hover{border-color:#2563eb}
+.doctor-card .name{font-size:1.1rem;font-weight:600;color:#1e293b}
+.doctor-card .spec{color:#64748b;font-size:.9rem}
+.doctor-card .langs{color:#2563eb;font-size:.85rem;margin-top:4px}
+.doctor-card .slots-count{color:#16a34a;font-size:.85rem;margin-top:4px;font-weight:500}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;margin-bottom:6px;font-weight:500;color:#374151;font-size:.9rem}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:8px;font-size:1rem;transition:border-color .2s}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:#2563eb}
+.form-group textarea{height:80px;resize:vertical}
+.checkbox-group{display:flex;align-items:flex-start;gap:8px;margin:16px 0}
+.checkbox-group input[type=checkbox]{margin-top:3px;width:18px;height:18px}
+.checkbox-group label{font-size:.85rem;color:#475569}
+.calendar{margin-bottom:16px}
+.cal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.cal-header button{background:none;border:none;font-size:1.2rem;cursor:pointer;padding:8px;color:#2563eb}
+.cal-header .month-name{font-weight:600;color:#1e293b}
+.cal-days{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.cal-day-name{font-size:.75rem;color:#94a3b8;font-weight:600;padding:4px}
+.cal-day{padding:10px 4px;border-radius:8px;font-size:.9rem;cursor:pointer;transition:background .2s}
+.cal-day:hover:not(.disabled):not(.empty){background:#eff6ff}
+.cal-day.today{font-weight:700;color:#2563eb}
+.cal-day.selected{background:#2563eb;color:#fff}
+.cal-day.disabled{color:#cbd5e1;cursor:default}
+.cal-day.empty{cursor:default}
+.time-section h3{margin:12px 0 8px;font-size:.95rem;color:#64748b}
+.time-grid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.time-slot{padding:10px 14px;border:2px solid #e2e8f0;border-radius:8px;cursor:pointer;font-size:.9rem;font-weight:500;transition:all .2s;background:#fff}
+.time-slot:hover{border-color:#2563eb;background:#eff6ff}
+.time-slot.selected{background:#2563eb;color:#fff;border-color:#2563eb}
+.confirm-box{text-align:center;padding:20px}
+.checkmark{width:64px;height:64px;border-radius:50%;background:#16a34a;margin:0 auto 16px;display:flex;align-items:center;justify-content:center}
+.checkmark::after{content:'';display:block;width:24px;height:12px;border-left:3px solid #fff;border-bottom:3px solid #fff;transform:rotate(-45deg);margin-top:-4px}
+.confirm-details{text-align:left;background:#f0fdf4;border-radius:8px;padding:16px;margin:16px 0}
+.confirm-details p{padding:4px 0;font-size:.9rem}
+.confirm-details b{color:#1e293b}
+.reminder{background:#fef3c7;border-radius:8px;padding:12px;margin:16px 0;font-size:.9rem;color:#92400e}
+.loading{text-align:center;padding:20px;color:#64748b}
+.error-msg{background:#fef2f2;color:#991b1b;border-radius:8px;padding:12px;margin:12px 0;font-size:.9rem}
+.service-select{margin:16px 0}
+.lang-bar{display:flex;justify-content:flex-end;gap:4px;margin-bottom:8px}
+.lang-btn{background:#fff;border:2px solid #e2e8f0;border-radius:8px;padding:6px 12px;cursor:pointer;font-size:.8rem;font-weight:600;color:#64748b;transition:all .2s}
+.lang-btn:hover{border-color:#2563eb;color:#2563eb}
+.lang-btn.active{background:#2563eb;color:#fff;border-color:#2563eb}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- Language selector -->
+<div class="lang-bar">
+  <button class="lang-btn" data-lang="cs" onclick="setLang('cs')">CZ</button>
+  <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+  <button class="lang-btn" data-lang="ru" onclick="setLang('ru')">RU</button>
+  <button class="lang-btn" data-lang="uk" onclick="setLang('uk')">UA</button>
+</div>
+
+<!-- SCREEN 1: Home -->
+<div id="screen1" class="screen active">
+  <div class="card">
+    <h1 data-t="clinicName"></h1>
+    <div class="info-row"><b data-t="address"></b>&nbsp;<span>Vinohradska 42, Praha 2</span></div>
+    <div class="info-row"><b data-t="phone"></b>&nbsp;<span>+420 222 333 444</span></div>
+    <div class="info-row"><b data-t="hours"></b>&nbsp;<span data-t="hoursValue"></span></div>
+  </div>
+  <div class="banner" data-t="bannerOpen"></div>
+  <div class="card">
+    <h2 data-t="ourServices"></h2>
+    <ul class="services-list">
+      <li data-t="svc1"></li>
+      <li data-t="svc2"></li>
+      <li data-t="svc3"></li>
+      <li data-t="svc4"></li>
+    </ul>
+  </div>
+  <div class="card">
+    <h2 data-t="insuranceTitle"></h2>
+    <div class="insurance-tags">
+      <span class="insurance-tag">VZP (111)</span>
+      <span class="insurance-tag">CPZP (205)</span>
+      <span class="insurance-tag">OZP (207)</span>
+      <span class="insurance-tag">Vojenska (201)</span>
+      <span class="insurance-tag" data-t="selfPay"></span>
+    </div>
+  </div>
+  <button class="btn" onclick="goTo(2)" data-t="bookBtn"></button>
+</div>
+
+<!-- SCREEN 2: Doctor selection -->
+<div id="screen2" class="screen">
+  <button class="btn-back" onclick="goTo(1)">&#8592; <span data-t="back"></span></button>
+  <h2 data-t="selectDoctor"></h2>
+  <div class="service-select">
+    <div class="form-group">
+      <label data-t="serviceType"></label>
+      <select id="serviceSelect">
+        <option value="svc1" data-t-opt="svc1"></option>
+        <option value="svc2" data-t-opt="svc2"></option>
+        <option value="svc3" data-t-opt="svc3"></option>
+        <option value="svc4" data-t-opt="svc4"></option>
+      </select>
+    </div>
+  </div>
+  <div id="doctorsList"><div class="loading" data-t="loadingDoctors"></div></div>
+</div>
+
+<!-- SCREEN 3: Date & time -->
+<div id="screen3" class="screen">
+  <button class="btn-back" onclick="goTo(2)">&#8592; <span data-t="back"></span></button>
+  <h2 data-t="selectDateTime"></h2>
+  <div id="selectedDoctorInfo" class="card" style="padding:12px"></div>
+  <div class="calendar card">
+    <div class="cal-header">
+      <button onclick="changeMonth(-1)">&#8592;</button>
+      <span class="month-name" id="calMonthName"></span>
+      <button onclick="changeMonth(1)">&#8594;</button>
+    </div>
+    <div class="cal-days" id="calGrid"></div>
+  </div>
+  <div id="slotsContainer" style="display:none">
+    <h3 id="slotsDate"></h3>
+    <div id="morningSlots"><h3 data-t="morning"></h3><div class="time-grid" id="morningGrid"></div></div>
+    <div id="afternoonSlots"><h3 data-t="afternoon"></h3><div class="time-grid" id="afternoonGrid"></div></div>
+    <div id="noSlots" class="loading" style="display:none" data-t="noSlots"></div>
+  </div>
+  <div id="slotsLoading" class="loading" style="display:none" data-t="loadingSlots"></div>
+</div>
+
+<!-- SCREEN 4: Patient form -->
+<div id="screen4" class="screen">
+  <button class="btn-back" onclick="goTo(3)">&#8592; <span data-t="back"></span></button>
+  <h2 data-t="yourDetails"></h2>
+  <div id="bookingSummary" class="card" style="padding:12px;font-size:.9rem"></div>
+  <div class="card">
+    <form id="patientForm" onsubmit="submitBooking(event)">
+      <div class="form-group">
+        <label data-t="fullName"></label>
+        <input type="text" id="pName" required data-t-ph="phName">
+      </div>
+      <div class="form-group">
+        <label data-t="phoneLabel"></label>
+        <input type="tel" id="pPhone" required placeholder="+420 777 123 456">
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="pEmail" placeholder="jan@example.com">
+      </div>
+      <div class="form-group">
+        <label data-t="birthDate"></label>
+        <input type="date" id="pBirth">
+      </div>
+      <div class="form-group">
+        <label data-t="insuranceLabel"></label>
+        <select id="pInsurance">
+          <option value="" data-t="selectOption"></option>
+          <option value="VZP (111)">VZP (111)</option>
+          <option value="CPZP (205)">CPZP (205)</option>
+          <option value="OZP (207)">OZP (207)</option>
+          <option value="Vojenska (201)">Vojenska (201)</option>
+          <option value="Samoplatce" data-t-opt="selfPay"></option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label data-t="description"></label>
+        <textarea id="pDesc" data-t-ph="phDesc"></textarea>
+      </div>
+      <div class="checkbox-group">
+        <input type="checkbox" id="pGdpr" required>
+        <label for="pGdpr" data-t="gdpr"></label>
+      </div>
+      <div id="bookingError" class="error-msg" style="display:none"></div>
+      <button type="submit" class="btn" id="submitBtn" data-t="confirmBooking"></button>
+    </form>
+  </div>
+</div>
+
+<!-- SCREEN 5: Confirmation -->
+<div id="screen5" class="screen">
+  <div class="confirm-box">
+    <div class="checkmark"></div>
+    <h2 data-t="bookingConfirmed"></h2>
+    <div id="confirmDetails" class="confirm-details"></div>
+    <div class="reminder" data-t="reminderText"></div>
+    <button class="btn" onclick="goTo(1);resetForm()" data-t="backHome"></button>
+  </div>
+</div>
+
+</div>
+<script>
+const T={
+cs:{
+  clinicName:'Urologicka klinika Praha',
+  address:'Adresa:',phone:'Telefon:',hours:'Ordinacni hodiny:',hoursValue:'Po-Pa 8:00-17:00',
+  bannerOpen:'Online rezervace je otevrena',
+  ourServices:'Nase sluzby',
+  svc1:'Primarni konzultace',svc2:'Opakovana navsteva',svc3:'Ultrazvukove vysetreni',svc4:'Urologicke procedury',
+  insuranceTitle:'Prijimame pojistovny',selfPay:'Samoplatce',
+  bookBtn:'Objednat se',
+  back:'Zpet',selectDoctor:'Vyber lekare',serviceType:'Typ sluzby',
+  loadingDoctors:'Nacitam lekare...',langLabel:'Jazyky',slotsToday:'volnych terminu dnes',
+  noDoctors:'Zadni lekari nejsou k dispozici.',errorDoctors:'Chyba pri nacitani lekaru.',
+  selectDateTime:'Vyber datum a cas',
+  months:['Leden','Unor','Brezen','Duben','Kveten','Cerven','Cervenec','Srpen','Zari','Rijen','Listopad','Prosinec'],
+  days:['Po','Ut','St','Ct','Pa','So','Ne'],
+  morning:'Dopoledne',afternoon:'Odpoledne',noSlots:'Zadne volne terminy',loadingSlots:'Nacitam terminy...',
+  noSlotsShort:'Zadne terminy',errorSlots:'Chyba pri nacitani terminu.',
+  yourDetails:'Vase udaje',fullName:'Jmeno a prijmeni *',phoneLabel:'Telefon *',
+  birthDate:'Datum narozeni',insuranceLabel:'Pojistovna',selectOption:'-- Vyberte --',
+  description:'Popis problemu',phName:'Jan Novak',phDesc:'Kratce popiste vase obtize...',
+  gdpr:'Souhlasim se zpracovanim osobnich udaju v souladu s GDPR pro ucely rezervace a poskytovani zdravotni pece.',
+  confirmBooking:'Potvrdit rezervaci',sending:'Odesilam...',
+  errorBooking:'Chyba pri rezervaci',errorGeneric:'Doslo k chybe. Zkuste to prosim znovu.',
+  bookingConfirmed:'Rezervace potvrzena!',
+  doctor:'Lekar',service:'Sluzba',date:'Datum',time:'Cas',patient:'Pacient',
+  reminderText:'Nezapomente si vzit karticki pojistence a obcansky prukaz.',
+  backHome:'Zpet na hlavni stranku'
+},
+en:{
+  clinicName:'Urology Clinic Prague',
+  address:'Address:',phone:'Phone:',hours:'Office hours:',hoursValue:'Mon-Fri 8:00-17:00',
+  bannerOpen:'Online booking is open',
+  ourServices:'Our services',
+  svc1:'Initial consultation',svc2:'Follow-up visit',svc3:'Ultrasound examination',svc4:'Urological procedures',
+  insuranceTitle:'Accepted insurance',selfPay:'Self-pay',
+  bookBtn:'Book appointment',
+  back:'Back',selectDoctor:'Choose a doctor',serviceType:'Service type',
+  loadingDoctors:'Loading doctors...',langLabel:'Languages',slotsToday:'available slots today',
+  noDoctors:'No doctors available.',errorDoctors:'Error loading doctors.',
+  selectDateTime:'Choose date and time',
+  months:['January','February','March','April','May','June','July','August','September','October','November','December'],
+  days:['Mo','Tu','We','Th','Fr','Sa','Su'],
+  morning:'Morning',afternoon:'Afternoon',noSlots:'No available slots',loadingSlots:'Loading slots...',
+  noSlotsShort:'No slots',errorSlots:'Error loading slots.',
+  yourDetails:'Your details',fullName:'Full name *',phoneLabel:'Phone *',
+  birthDate:'Date of birth',insuranceLabel:'Insurance',selectOption:'-- Select --',
+  description:'Problem description',phName:'John Smith',phDesc:'Briefly describe your symptoms...',
+  gdpr:'I agree to the processing of personal data in accordance with GDPR for the purposes of booking and healthcare.',
+  confirmBooking:'Confirm booking',sending:'Sending...',
+  errorBooking:'Booking error',errorGeneric:'An error occurred. Please try again.',
+  bookingConfirmed:'Booking confirmed!',
+  doctor:'Doctor',service:'Service',date:'Date',time:'Time',patient:'Patient',
+  reminderText:'Don\'t forget to bring your insurance card and ID.',
+  backHome:'Back to main page'
+},
+ru:{
+  clinicName:'Урологическая клиника Прага',
+  address:'Адрес:',phone:'Телефон:',hours:'Часы приёма:',hoursValue:'Пн-Пт 8:00-17:00',
+  bannerOpen:'Онлайн-запись открыта',
+  ourServices:'Наши услуги',
+  svc1:'Первичная консультация',svc2:'Повторный визит',svc3:'УЗИ обследование',svc4:'Урологические процедуры',
+  insuranceTitle:'Принимаем страховки',selfPay:'Самоплательщик',
+  bookBtn:'Записаться',
+  back:'Назад',selectDoctor:'Выбор врача',serviceType:'Тип услуги',
+  loadingDoctors:'Загрузка врачей...',langLabel:'Языки',slotsToday:'свободных слотов сегодня',
+  noDoctors:'Нет доступных врачей.',errorDoctors:'Ошибка загрузки врачей.',
+  selectDateTime:'Выберите дату и время',
+  months:['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'],
+  days:['Пн','Вт','Ср','Чт','Пт','Сб','Вс'],
+  morning:'Утро',afternoon:'После обеда',noSlots:'Нет свободных слотов',loadingSlots:'Загрузка слотов...',
+  noSlotsShort:'Нет слотов',errorSlots:'Ошибка загрузки слотов.',
+  yourDetails:'Ваши данные',fullName:'Имя и фамилия *',phoneLabel:'Телефон *',
+  birthDate:'Дата рождения',insuranceLabel:'Страховка',selectOption:'-- Выберите --',
+  description:'Описание проблемы',phName:'Иван Новак',phDesc:'Кратко опишите ваши жалобы...',
+  gdpr:'Я согласен(а) на обработку персональных данных в соответствии с GDPR для целей записи и оказания медицинской помощи.',
+  confirmBooking:'Подтвердить запись',sending:'Отправка...',
+  errorBooking:'Ошибка записи',errorGeneric:'Произошла ошибка. Попробуйте ещё раз.',
+  bookingConfirmed:'Запись подтверждена!',
+  doctor:'Врач',service:'Услуга',date:'Дата',time:'Время',patient:'Пациент',
+  reminderText:'Не забудьте взять с собой карточку страхования и удостоверение личности.',
+  backHome:'На главную'
+},
+uk:{
+  clinicName:'Урологічна клініка Прага',
+  address:'Адреса:',phone:'Телефон:',hours:'Години прийому:',hoursValue:'Пн-Пт 8:00-17:00',
+  bannerOpen:'Онлайн-запис відкритий',
+  ourServices:'Наші послуги',
+  svc1:'Первинна консультація',svc2:'Повторний візит',svc3:'УЗД обстеження',svc4:'Урологічні процедури',
+  insuranceTitle:'Приймаємо страховки',selfPay:'Самоплатник',
+  bookBtn:'Записатися',
+  back:'Назад',selectDoctor:'Вибір лікаря',serviceType:'Тип послуги',
+  loadingDoctors:'Завантаження лікарів...',langLabel:'Мови',slotsToday:'вільних слотів сьогодні',
+  noDoctors:'Немає доступних лікарів.',errorDoctors:'Помилка завантаження лікарів.',
+  selectDateTime:'Оберіть дату та час',
+  months:['Січень','Лютий','Березень','Квітень','Травень','Червень','Липень','Серпень','Вересень','Жовтень','Листопад','Грудень'],
+  days:['Пн','Вт','Ср','Чт','Пт','Сб','Нд'],
+  morning:'Ранок',afternoon:'Після обіду',noSlots:'Немає вільних слотів',loadingSlots:'Завантаження слотів...',
+  noSlotsShort:'Немає слотів',errorSlots:'Помилка завантаження слотів.',
+  yourDetails:'Ваші дані',fullName:"Ім'я та прізвище *",phoneLabel:'Телефон *',
+  birthDate:'Дата народження',insuranceLabel:'Страховка',selectOption:'-- Оберіть --',
+  description:'Опис проблеми',phName:'Іван Новак',phDesc:'Коротко опишіть ваші скарги...',
+  gdpr:'Я погоджуюсь на обробку персональних даних відповідно до GDPR для цілей запису та надання медичної допомоги.',
+  confirmBooking:'Підтвердити запис',sending:'Відправка...',
+  errorBooking:'Помилка запису',errorGeneric:'Сталася помилка. Спробуйте ще раз.',
+  bookingConfirmed:'Запис підтверджено!',
+  doctor:'Лікар',service:'Послуга',date:'Дата',time:'Час',patient:'Пацієнт',
+  reminderText:'Не забудьте взяти з собою картку страхування та посвідчення особи.',
+  backHome:'На головну'
+}
+};
+
+let lang='cs';
+
+function setLang(l){
+  lang=l;
+  localStorage.setItem('rez_lang',l);
+  document.querySelectorAll('.lang-btn').forEach(b=>{
+    b.classList.toggle('active',b.dataset.lang===l);
+  });
+  applyTranslations();
+  if(calYear)renderCalendar();
+  updateServiceOptions();
+}
+
+function t(key){return T[lang][key]||T['cs'][key]||key}
+
+function applyTranslations(){
+  document.querySelectorAll('[data-t]').forEach(el=>{
+    const key=el.getAttribute('data-t');
+    if(T[lang][key])el.textContent=T[lang][key];
+  });
+  document.querySelectorAll('[data-t-ph]').forEach(el=>{
+    const key=el.getAttribute('data-t-ph');
+    if(T[lang][key])el.placeholder=T[lang][key];
+  });
+  document.querySelectorAll('[data-t-opt]').forEach(el=>{
+    const key=el.getAttribute('data-t-opt');
+    if(T[lang][key])el.textContent=T[lang][key];
+  });
+  document.title=t('clinicName')+' - '+t('bookBtn');
+}
+
+function updateServiceOptions(){
+  const sel=document.getElementById('serviceSelect');
+  sel.options[0].textContent=t('svc1');
+  sel.options[1].textContent=t('svc2');
+  sel.options[2].textContent=t('svc3');
+  sel.options[3].textContent=t('svc4');
+}
+
+const API='';
+let doctors=[];
+let selectedDoctor=null;
+let selectedService='';
+let selectedServiceKey='';
+let selectedDate='';
+let selectedSlot=null;
+let calYear,calMonth;
+
+function goTo(n){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen'+n).classList.add('active');
+  if(n===2)loadDoctors();
+  if(n===3)initCalendar();
+  window.scrollTo(0,0);
+}
+
+async function loadDoctors(){
+  const el=document.getElementById('doctorsList');
+  el.innerHTML='<div class="loading">'+t('loadingDoctors')+'</div>';
+  try{
+    const res=await fetch(API+'/doctors');
+    doctors=await res.json();
+    if(!doctors.length){el.innerHTML='<p>'+t('noDoctors')+'</p>';return}
+    let html='';
+    for(const d of doctors){
+      let slotCount='';
+      try{
+        const r=await fetch(API+'/slots?doctorId='+d._id+'&date='+todayStr());
+        const s=await r.json();
+        slotCount=s.length+' '+t('slotsToday');
+      }catch(e){slotCount=''}
+      html+=`<div class="doctor-card" onclick="selectDoctor('${d._id}')">
+        <div class="name">${d.name}</div>
+        <div class="spec">${d.specialization}</div>
+        <div class="langs">${t('langLabel')}: ${(d.languages||[]).join(', ')}</div>
+        ${slotCount?`<div class="slots-count">${slotCount}</div>`:''}
+      </div>`;
+    }
+    el.innerHTML=html;
+  }catch(e){el.innerHTML='<div class="error-msg">'+t('errorDoctors')+'</div>'}
+}
+
+function selectDoctor(id){
+  selectedDoctor=doctors.find(d=>d._id===id);
+  selectedServiceKey=document.getElementById('serviceSelect').value;
+  selectedService=t(selectedServiceKey);
+  goTo(3);
+}
+
+function todayStr(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+
+function initCalendar(){
+  if(!calYear){const n=new Date();calYear=n.getFullYear();calMonth=n.getMonth()}
+  document.getElementById('selectedDoctorInfo').innerHTML=
+    `<b>${selectedDoctor.name}</b> - ${selectedService}`;
+  renderCalendar();
+}
+
+function changeMonth(dir){
+  calMonth+=dir;
+  if(calMonth<0){calMonth=11;calYear--}
+  if(calMonth>11){calMonth=0;calYear++}
+  renderCalendar();
+}
+
+function renderCalendar(){
+  const months=T[lang].months;
+  document.getElementById('calMonthName').textContent=months[calMonth]+' '+calYear;
+  const grid=document.getElementById('calGrid');
+  const dayNames=T[lang].days;
+  let html=dayNames.map(d=>`<div class="cal-day-name">${d}</div>`).join('');
+  const first=new Date(calYear,calMonth,1);
+  let startDay=first.getDay()-1;if(startDay<0)startDay=6;
+  const daysInMonth=new Date(calYear,calMonth+1,0).getDate();
+  const today=new Date();today.setHours(0,0,0,0);
+  for(let i=0;i<startDay;i++)html+='<div class="cal-day empty"></div>';
+  for(let d=1;d<=daysInMonth;d++){
+    const dt=new Date(calYear,calMonth,d);
+    const dateStr=`${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const isPast=dt<today;
+    const isToday=dt.getTime()===today.getTime();
+    const isWeekend=dt.getDay()===0||dt.getDay()===6;
+    const cls=['cal-day'];
+    if(isPast||isWeekend)cls.push('disabled');
+    if(isToday)cls.push('today');
+    if(dateStr===selectedDate)cls.push('selected');
+    const onclick=isPast||isWeekend?'':`onclick="selectDate('${dateStr}')"`;
+    html+=`<div class="${cls.join(' ')}" ${onclick}>${d}</div>`;
+  }
+  grid.innerHTML=html;
+  document.getElementById('slotsContainer').style.display=selectedDate?'block':'none';
+}
+
+async function selectDate(date){
+  selectedDate=date;
+  selectedSlot=null;
+  renderCalendar();
+  const container=document.getElementById('slotsContainer');
+  const loading=document.getElementById('slotsLoading');
+  container.style.display='none';
+  loading.style.display='block';
+  loading.textContent=t('loadingSlots');
+  try{
+    const res=await fetch(API+`/slots?doctorId=${selectedDoctor._id}&date=${date}`);
+    const slots=await res.json();
+    loading.style.display='none';
+    container.style.display='block';
+    const parts=date.split('-');
+    document.getElementById('slotsDate').textContent=`${parts[2]}.${parts[1]}.${parts[0]}`;
+    const morning=slots.filter(s=>s.startTime<'12:00');
+    const afternoon=slots.filter(s=>s.startTime>='12:00');
+    document.getElementById('morningGrid').innerHTML=morning.length?
+      morning.map(s=>`<div class="time-slot" onclick="selectSlot(this,'${s._id}','${s.startTime}','${s.endTime}')">${s.startTime}</div>`).join(''):'<span style="color:#94a3b8;font-size:.9rem">'+t('noSlotsShort')+'</span>';
+    document.getElementById('afternoonGrid').innerHTML=afternoon.length?
+      afternoon.map(s=>`<div class="time-slot" onclick="selectSlot(this,'${s._id}','${s.startTime}','${s.endTime}')">${s.startTime}</div>`).join(''):'<span style="color:#94a3b8;font-size:.9rem">'+t('noSlotsShort')+'</span>';
+    document.getElementById('noSlots').style.display=slots.length?'none':'block';
+    document.getElementById('noSlots').textContent=t('noSlots');
+    if(!slots.length){document.getElementById('morningGrid').innerHTML='';document.getElementById('afternoonGrid').innerHTML=''}
+  }catch(e){loading.style.display='none';container.innerHTML='<div class="error-msg">'+t('errorSlots')+'</div>'}
+}
+
+function selectSlot(el,id,start,end){
+  document.querySelectorAll('.time-slot').forEach(s=>s.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedSlot={id,start,end};
+  const parts=selectedDate.split('-');
+  document.getElementById('bookingSummary').innerHTML=
+    `<b>${selectedDoctor.name}</b><br>${selectedService}<br>${parts[2]}.${parts[1]}.${parts[0]} ${start}-${end}`;
+  goTo(4);
+}
+
+async function submitBooking(e){
+  e.preventDefault();
+  const btn=document.getElementById('submitBtn');
+  const errEl=document.getElementById('bookingError');
+  errEl.style.display='none';
+  btn.disabled=true;btn.textContent=t('sending');
+  const body={
+    slotId:selectedSlot.id,
+    doctorId:selectedDoctor._id,
+    patientName:document.getElementById('pName').value,
+    phone:document.getElementById('pPhone').value,
+    email:document.getElementById('pEmail').value||undefined,
+    birthDate:document.getElementById('pBirth').value||undefined,
+    insurance:document.getElementById('pInsurance').value||undefined,
+    description:document.getElementById('pDesc').value||undefined,
+    serviceName:selectedService
+  };
+  try{
+    const res=await fetch(API+'/appointments',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const data=await res.json();
+    if(!res.ok)throw new Error(data.message||t('errorBooking'));
+    const parts=selectedDate.split('-');
+    document.getElementById('confirmDetails').innerHTML=
+      `<p><b>${t('doctor')}:</b> ${selectedDoctor.name}</p>
+       <p><b>${t('service')}:</b> ${selectedService}</p>
+       <p><b>${t('date')}:</b> ${parts[2]}.${parts[1]}.${parts[0]}</p>
+       <p><b>${t('time')}:</b> ${selectedSlot.start} - ${selectedSlot.end}</p>
+       <p><b>${t('patient')}:</b> ${body.patientName}</p>
+       <p><b>${t('phoneLabel').replace(' *','')}:</b> ${body.phone}</p>`;
+    goTo(5);
+  }catch(err){
+    errEl.textContent=err.message||t('errorGeneric');
+    errEl.style.display='block';
+  }finally{btn.disabled=false;btn.textContent=t('confirmBooking')}
+}
+
+function resetForm(){
+  document.getElementById('patientForm').reset();
+  selectedDoctor=null;selectedSlot=null;selectedDate='';
+  calYear=null;calMonth=null;
+}
+
+// Init language
+(function(){
+  const saved=localStorage.getItem('rez_lang');
+  if(saved&&T[saved])lang=saved;
+  setLang(lang);
+})();
+</script>
+</body>
+</html>

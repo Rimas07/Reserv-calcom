@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rezervachka - Admin</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f1f5f9;color:#1e293b}
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1e293b,#334155)}
+.login-box{background:#fff;border-radius:12px;padding:32px;width:100%;max-width:400px;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+.login-box h1{text-align:center;margin-bottom:24px;color:#1e293b;font-size:1.5rem}
+.layout{display:flex;min-height:100vh}
+.sidebar{width:240px;background:#1e293b;color:#fff;padding:20px 0;flex-shrink:0}
+.sidebar h2{padding:0 20px 20px;font-size:1.1rem;border-bottom:1px solid #334155}
+.sidebar a{display:block;padding:12px 20px;color:#94a3b8;text-decoration:none;font-size:.9rem;transition:all .2s;cursor:pointer}
+.sidebar a:hover,.sidebar a.active{background:#334155;color:#fff}
+.sidebar .logout{margin-top:auto;border-top:1px solid #334155;padding-top:8px;color:#ef4444}
+.main{flex:1;padding:24px;overflow-x:auto}
+.section{display:none}
+.section.active{display:block}
+h2.page-title{margin-bottom:20px;font-size:1.4rem}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px}
+.stat-card{background:#fff;border-radius:10px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.stat-card .value{font-size:2rem;font-weight:700;color:#2563eb}
+.stat-card .label{color:#64748b;font-size:.85rem;margin-top:4px}
+.card{background:#fff;border-radius:10px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.1);margin-bottom:16px}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;padding:10px 12px;background:#f8fafc;color:#64748b;font-size:.8rem;font-weight:600;text-transform:uppercase;border-bottom:2px solid #e2e8f0}
+td{padding:10px 12px;border-bottom:1px solid #f1f5f9;font-size:.9rem}
+tr:hover{background:#f8fafc}
+.badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.75rem;font-weight:600}
+.badge-green{background:#dcfce7;color:#166534}
+.badge-red{background:#fef2f2;color:#991b1b}
+.badge-blue{background:#dbeafe;color:#1e40af}
+.badge-gray{background:#f1f5f9;color:#475569}
+.filters{display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;align-items:end}
+.filters .form-group{margin:0}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;margin-bottom:4px;font-weight:500;font-size:.85rem;color:#374151}
+.form-group input,.form-group select{padding:8px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:.9rem;min-width:160px}
+.form-group input:focus,.form-group select:focus{outline:none;border-color:#2563eb}
+.btn{display:inline-block;background:#2563eb;color:#fff;border:none;padding:8px 16px;border-radius:6px;font-size:.9rem;cursor:pointer;font-weight:500;transition:background .2s}
+.btn:hover{background:#1d4ed8}
+.btn-sm{padding:5px 10px;font-size:.8rem}
+.btn-red{background:#ef4444}.btn-red:hover{background:#dc2626}
+.btn-green{background:#16a34a}.btn-green:hover{background:#15803d}
+.btn-outline{background:transparent;color:#2563eb;border:1px solid #2563eb}
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:100}
+.modal-overlay.show{display:flex}
+.modal{background:#fff;border-radius:12px;padding:24px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto}
+.modal h3{margin-bottom:16px}
+.slot-badge{display:inline-block;padding:6px 12px;border-radius:6px;font-size:.85rem;margin:3px;font-weight:500;cursor:default}
+.slot-avail{background:#dcfce7;color:#166534;cursor:pointer}
+.slot-booked{background:#dbeafe;color:#1e40af}
+.slot-blocked{background:#f1f5f9;color:#475569;cursor:pointer}
+.msg{padding:10px;border-radius:6px;margin:8px 0;font-size:.9rem}
+.msg-ok{background:#dcfce7;color:#166534}
+.msg-err{background:#fef2f2;color:#991b1b}
+.loading{text-align:center;padding:20px;color:#64748b}
+.schedule-row{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+.schedule-row label{width:30px;font-weight:500;font-size:.85rem}
+.schedule-row input{width:80px;padding:6px;border:1px solid #d1d5db;border-radius:4px;font-size:.85rem}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen" class="login-wrap">
+<div class="login-box">
+  <h1>Rezervachka Admin</h1>
+  <form onsubmit="doLogin(event)">
+    <div class="form-group"><label>Email</label><input type="email" id="loginEmail" required value="admin@clinic.cz"></div>
+    <div class="form-group"><label>Heslo</label><input type="password" id="loginPass" required value="123456"></div>
+    <div id="loginError" class="msg msg-err" style="display:none"></div>
+    <button type="submit" class="btn" style="width:100%">Prihlasit se</button>
+  </form>
+</div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div id="appLayout" class="layout" style="display:none">
+<nav class="sidebar">
+  <h2>Rezervachka</h2>
+  <a onclick="showSection('dashboard')" class="active" data-nav="dashboard">Dashboard</a>
+  <a onclick="showSection('appointments')" data-nav="appointments">Zapisy</a>
+  <a onclick="showSection('doctorsSection')" data-nav="doctorsSection">Lekari</a>
+  <a onclick="showSection('slotsSection')" data-nav="slotsSection">Sloty</a>
+  <a onclick="doLogout()" class="logout">Odhlasit se</a>
+</nav>
+<div class="main">
+
+<!-- Dashboard -->
+<div id="dashboard" class="section active">
+  <h2 class="page-title">Dashboard</h2>
+  <div class="stats">
+    <div class="stat-card"><div class="value" id="statTotal">-</div><div class="label">Zapisu tento mesic</div></div>
+    <div class="stat-card"><div class="value" id="statToday">-</div><div class="label">Novych dnes</div></div>
+    <div class="stat-card"><div class="value" id="statCancelled">-</div><div class="label">Zruseno tento mesic</div></div>
+  </div>
+  <div class="card">
+    <h3 style="margin-bottom:12px">Posledni zapisy</h3>
+    <table><thead><tr><th>Datum/Cas</th><th>Pacient</th><th>Lekar</th><th>Sluzba</th><th>Status</th></tr></thead>
+    <tbody id="recentTable"><tr><td colspan="5" class="loading">Nacitam...</td></tr></tbody></table>
+  </div>
+</div>
+
+<!-- Appointments -->
+<div id="appointments" class="section">
+  <h2 class="page-title">Zapisy</h2>
+  <div class="filters">
+    <div class="form-group"><label>Lekar</label><select id="filterDoctor"><option value="">Vsichni</option></select></div>
+    <div class="form-group"><label>Status</label><select id="filterStatus"><option value="">Vsechny</option><option value="confirmed">Potvrzene</option><option value="cancelled">Zrusene</option></select></div>
+    <div class="form-group"><label>Hledat</label><input type="text" id="filterSearch" placeholder="Jmeno nebo telefon"></div>
+    <button class="btn" onclick="loadAppointments()">Filtrovat</button>
+  </div>
+  <div class="card">
+    <table><thead><tr><th>Datum/Cas</th><th>Pacient</th><th>Telefon</th><th>Lekar</th><th>Sluzba</th><th>Pojistovna</th><th>Status</th><th>Akce</th></tr></thead>
+    <tbody id="apptTable"><tr><td colspan="8" class="loading">Nacitam...</td></tr></tbody></table>
+  </div>
+</div>
+
+<!-- Doctors -->
+<div id="doctorsSection" class="section">
+  <h2 class="page-title">Lekari</h2>
+  <button class="btn" onclick="openDoctorModal()" style="margin-bottom:16px">Pridat lekare</button>
+  <div class="card">
+    <table><thead><tr><th>Jmeno</th><th>Specializace</th><th>Jazyky</th><th>Delka slotu</th><th>Aktivni</th><th>Akce</th></tr></thead>
+    <tbody id="doctorsTable"><tr><td colspan="6" class="loading">Nacitam...</td></tr></tbody></table>
+  </div>
+</div>
+
+<!-- Slots -->
+<div id="slotsSection" class="section">
+  <h2 class="page-title">Sprava slotu</h2>
+  <div class="card">
+    <h3>Generovat sloty</h3>
+    <div class="filters">
+      <div class="form-group"><label>Lekar</label><select id="genDoctor"></select></div>
+      <div class="form-group"><label>Rok</label><input type="number" id="genYear" value="2026" style="width:80px"></div>
+      <div class="form-group"><label>Mesic</label><input type="number" id="genMonth" min="1" max="12" value="3" style="width:60px"></div>
+      <button class="btn btn-green" onclick="generateSlots()">Generovat</button>
+    </div>
+    <div id="genResult"></div>
+  </div>
+  <div class="card">
+    <h3>Zobrazit sloty</h3>
+    <div class="filters">
+      <div class="form-group"><label>Lekar</label><select id="viewSlotsDoctor"></select></div>
+      <div class="form-group"><label>Datum</label><input type="date" id="viewSlotsDate"></div>
+      <button class="btn" onclick="loadSlots()">Zobrazit</button>
+    </div>
+    <div id="slotsGrid" style="margin-top:12px"></div>
+  </div>
+</div>
+
+</div>
+</div>
+
+<!-- Doctor Modal -->
+<div id="doctorModal" class="modal-overlay">
+<div class="modal">
+  <h3 id="doctorModalTitle">Pridat lekare</h3>
+  <form onsubmit="saveDoctorForm(event)">
+    <input type="hidden" id="editDoctorId">
+    <div class="form-group"><label>Jmeno</label><input type="text" id="docName" required></div>
+    <div class="form-group"><label>Specializace</label><input type="text" id="docSpec" required value="Urolog"></div>
+    <div class="form-group"><label>Jazyky (carkou)</label><input type="text" id="docLangs" value="CZ"></div>
+    <div class="form-group"><label>Delka slotu (min)</label><input type="number" id="docSlot" value="30"></div>
+    <div class="form-group"><label>Rozvrh</label>
+      <div class="schedule-row"><label>Po</label><input type="text" id="schMonF" placeholder="08:00"><span>-</span><input type="text" id="schMonT" placeholder="16:00"></div>
+      <div class="schedule-row"><label>Ut</label><input type="text" id="schTueF" placeholder="08:00"><span>-</span><input type="text" id="schTueT" placeholder="16:00"></div>
+      <div class="schedule-row"><label>St</label><input type="text" id="schWedF" placeholder="08:00"><span>-</span><input type="text" id="schWedT" placeholder="12:00"></div>
+      <div class="schedule-row"><label>Ct</label><input type="text" id="schThuF" placeholder="08:00"><span>-</span><input type="text" id="schThuT" placeholder="16:00"></div>
+      <div class="schedule-row"><label>Pa</label><input type="text" id="schFriF" placeholder="08:00"><span>-</span><input type="text" id="schFriT" placeholder="14:00"></div>
+    </div>
+    <div id="doctorModalError" class="msg msg-err" style="display:none"></div>
+    <div style="display:flex;gap:8px;margin-top:16px">
+      <button type="submit" class="btn">Ulozit</button>
+      <button type="button" class="btn btn-outline" onclick="closeDoctorModal()">Zrusit</button>
+    </div>
+  </form>
+</div>
+</div>
+
+<script>
+const API='';
+let token=localStorage.getItem('adminToken');
+let allDoctors=[];
+
+// --- Auth ---
+function checkAuth(){
+  if(token){document.getElementById('loginScreen').style.display='none';document.getElementById('appLayout').style.display='flex';loadDashboard();loadDoctorsList()}
+}
+async function doLogin(e){
+  e.preventDefault();
+  const err=document.getElementById('loginError');err.style.display='none';
+  try{
+    const r=await fetch(API+'/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:document.getElementById('loginEmail').value,password:document.getElementById('loginPass').value})});
+    const d=await r.json();
+    if(!r.ok)throw new Error(d.message||'Chybne prihlaseni');
+    token=d.accessToken;localStorage.setItem('adminToken',token);
+    document.getElementById('loginScreen').style.display='none';document.getElementById('appLayout').style.display='flex';
+    loadDashboard();loadDoctorsList();
+  }catch(er){err.textContent=er.message;err.style.display='block'}
+}
+function doLogout(){token=null;localStorage.removeItem('adminToken');location.reload()}
+async function adminFetch(url,opts={}){
+  const headers={...opts.headers,'Authorization':'Bearer '+token};
+  if(opts.body&&typeof opts.body==='string')headers['Content-Type']='application/json';
+  const r=await fetch(API+url,{...opts,headers});
+  if(r.status===401){doLogout();throw new Error('Unauthorized')}
+  return r;
+}
+
+// --- Navigation ---
+function showSection(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.sidebar a').forEach(a=>a.classList.remove('active'));
+  document.querySelector(`[data-nav="${id}"]`)?.classList.add('active');
+  if(id==='dashboard')loadDashboard();
+  if(id==='appointments')loadAppointments();
+  if(id==='doctorsSection')loadDoctorsList();
+  if(id==='slotsSection')populateDoctorDropdowns();
+}
+
+// --- Dashboard ---
+async function loadDashboard(){
+  try{
+    const r=await adminFetch('/admin/appointments/stats');
+    const d=await r.json();
+    document.getElementById('statTotal').textContent=d.totalThisMonth||0;
+    document.getElementById('statToday').textContent=d.newToday||0;
+    document.getElementById('statCancelled').textContent=d.cancelled||0;
+    const tb=document.getElementById('recentTable');
+    if(!d.recent||!d.recent.length){tb.innerHTML='<tr><td colspan="5">Zatim zadne zapisy</td></tr>';return}
+    tb.innerHTML=d.recent.map(a=>{
+      const slot=a.slotId||{};const doc=a.doctorId||{};
+      const badge=a.status==='confirmed'?'badge-green':'badge-red';
+      return `<tr><td>${slot.date||'-'} ${slot.startTime||''}</td><td>${a.patientName}</td><td>${doc.name||'-'}</td><td>${a.serviceName}</td><td><span class="badge ${badge}">${a.status}</span></td></tr>`;
+    }).join('');
+  }catch(e){console.error(e)}
+}
+
+// --- Appointments ---
+async function loadAppointments(){
+  populateDoctorDropdowns();
+  const q=new URLSearchParams();
+  const doc=document.getElementById('filterDoctor').value;
+  const st=document.getElementById('filterStatus').value;
+  const se=document.getElementById('filterSearch').value;
+  if(doc)q.set('doctorId',doc);if(st)q.set('status',st);if(se)q.set('search',se);
+  const tb=document.getElementById('apptTable');
+  tb.innerHTML='<tr><td colspan="8" class="loading">Nacitam...</td></tr>';
+  try{
+    const r=await adminFetch('/admin/appointments?'+q.toString());
+    const data=await r.json();
+    if(!data.length){tb.innerHTML='<tr><td colspan="8">Zadne zapisy</td></tr>';return}
+    tb.innerHTML=data.map(a=>{
+      const slot=a.slotId||{};const doc=a.doctorId||{};
+      const badge=a.status==='confirmed'?'badge-green':'badge-red';
+      const cancelBtn=a.status==='confirmed'?`<button class="btn btn-sm btn-red" onclick="cancelAppt('${a._id}')">Zrusit</button>`:'';
+      return `<tr><td>${slot.date||'-'} ${slot.startTime||''}</td><td>${a.patientName}</td><td>${a.phone}</td><td>${doc.name||'-'}</td><td>${a.serviceName}</td><td>${a.insurance||'-'}</td><td><span class="badge ${badge}">${a.status}</span></td><td>${cancelBtn}</td></tr>`;
+    }).join('');
+  }catch(e){tb.innerHTML='<tr><td colspan="8" class="msg-err">Chyba</td></tr>'}
+}
+async function cancelAppt(id){
+  if(!confirm('Opravdu chcete zrusit tento zapis?'))return;
+  try{await adminFetch('/admin/appointments/'+id+'/cancel',{method:'PUT'});loadAppointments();loadDashboard()}catch(e){alert('Chyba: '+e.message)}
+}
+
+// --- Doctors ---
+async function loadDoctorsList(){
+  try{
+    const r=await fetch(API+'/doctors');
+    allDoctors=await r.json();
+    const tb=document.getElementById('doctorsTable');
+    if(!allDoctors.length){tb.innerHTML='<tr><td colspan="6">Zadni lekari</td></tr>';return}
+    tb.innerHTML=allDoctors.map(d=>`<tr>
+      <td>${d.name}</td><td>${d.specialization}</td><td>${(d.languages||[]).join(', ')}</td>
+      <td>${d.slotDurationMinutes} min</td><td>${d.isActive?'Ano':'Ne'}</td>
+      <td><button class="btn btn-sm btn-outline" onclick="editDoctor('${d._id}')">Upravit</button></td>
+    </tr>`).join('');
+    populateDoctorDropdowns();
+  }catch(e){console.error(e)}
+}
+function populateDoctorDropdowns(){
+  ['filterDoctor','genDoctor','viewSlotsDoctor'].forEach(id=>{
+    const el=document.getElementById(id);if(!el)return;
+    const val=el.value;
+    const hasAll=id==='filterDoctor';
+    el.innerHTML=(hasAll?'<option value="">Vsichni</option>':'')+allDoctors.map(d=>`<option value="${d._id}">${d.name}</option>`).join('');
+    if(val)el.value=val;
+  });
+}
+function openDoctorModal(doc){
+  document.getElementById('doctorModalTitle').textContent=doc?'Upravit lekare':'Pridat lekare';
+  document.getElementById('editDoctorId').value=doc?doc._id:'';
+  document.getElementById('docName').value=doc?doc.name:'';
+  document.getElementById('docSpec').value=doc?doc.specialization:'Urolog';
+  document.getElementById('docLangs').value=doc?(doc.languages||[]).join(', '):'CZ';
+  document.getElementById('docSlot').value=doc?doc.slotDurationMinutes:30;
+  const sch=doc?.schedule||{};
+  const days=[['Mon','mon'],['Tue','tue'],['Wed','wed'],['Thu','thu'],['Fri','fri']];
+  days.forEach(([ui,key])=>{
+    document.getElementById('sch'+ui+'F').value=sch[key]?.from||'';
+    document.getElementById('sch'+ui+'T').value=sch[key]?.to||'';
+  });
+  document.getElementById('doctorModalError').style.display='none';
+  document.getElementById('doctorModal').classList.add('show');
+}
+function closeDoctorModal(){document.getElementById('doctorModal').classList.remove('show')}
+function editDoctor(id){const doc=allDoctors.find(d=>d._id===id);if(doc)openDoctorModal(doc)}
+async function saveDoctorForm(e){
+  e.preventDefault();
+  const err=document.getElementById('doctorModalError');err.style.display='none';
+  const id=document.getElementById('editDoctorId').value;
+  const schedule={};
+  const days=[['Mon','mon'],['Tue','tue'],['Wed','wed'],['Thu','thu'],['Fri','fri']];
+  days.forEach(([ui,key])=>{
+    const f=document.getElementById('sch'+ui+'F').value;
+    const t=document.getElementById('sch'+ui+'T').value;
+    if(f&&t)schedule[key]={from:f,to:t};
+  });
+  const body={
+    name:document.getElementById('docName').value,
+    specialization:document.getElementById('docSpec').value,
+    languages:document.getElementById('docLangs').value.split(',').map(s=>s.trim()).filter(Boolean),
+    slotDurationMinutes:parseInt(document.getElementById('docSlot').value)||30,
+    schedule,
+    isActive:true
+  };
+  try{
+    const url=id?'/admin/doctors/'+id:'/admin/doctors';
+    const method=id?'PUT':'POST';
+    const r=await adminFetch(url,{method,body:JSON.stringify(body)});
+    if(!r.ok){const d=await r.json();throw new Error(d.message||'Chyba')}
+    closeDoctorModal();loadDoctorsList();
+  }catch(er){err.textContent=er.message;err.style.display='block'}
+}
+
+// --- Slots ---
+async function generateSlots(){
+  const res=document.getElementById('genResult');res.innerHTML='<div class="loading">Generuji...</div>';
+  const body={
+    doctorId:document.getElementById('genDoctor').value,
+    year:parseInt(document.getElementById('genYear').value),
+    month:parseInt(document.getElementById('genMonth').value)
+  };
+  try{
+    const r=await adminFetch('/admin/slots/generate',{method:'POST',body:JSON.stringify(body)});
+    const d=await r.json();
+    res.innerHTML=`<div class="msg msg-ok">Vygenerovano ${d.generated||0} slotu (celkem ${d.total||0})</div>`;
+  }catch(e){res.innerHTML=`<div class="msg msg-err">Chyba: ${e.message}</div>`}
+}
+async function loadSlots(){
+  const grid=document.getElementById('slotsGrid');
+  const docId=document.getElementById('viewSlotsDoctor').value;
+  const date=document.getElementById('viewSlotsDate').value;
+  if(!docId||!date){grid.innerHTML='<div class="msg msg-err">Vyberte lekare a datum</div>';return}
+  grid.innerHTML='<div class="loading">Nacitam...</div>';
+  try{
+    const r=await adminFetch(`/admin/slots?doctorId=${docId}&date=${date}`);
+    const slots=await r.json();
+    if(!slots.length){grid.innerHTML='<p>Zadne sloty pro tento den</p>';return}
+    grid.innerHTML=slots.map(s=>{
+      if(s.status==='available')return `<span class="slot-badge slot-avail" onclick="blockSlot('${s._id}')" title="Klikni pro zablokovani">${s.startTime}</span>`;
+      if(s.status==='booked')return `<span class="slot-badge slot-booked" title="Obsazeno">${s.startTime}</span>`;
+      return `<span class="slot-badge slot-blocked" onclick="releaseSlot('${s._id}')" title="Klikni pro uvolneni">${s.startTime}</span>`;
+    }).join('');
+  }catch(e){grid.innerHTML=`<div class="msg msg-err">Chyba: ${e.message}</div>`}
+}
+async function blockSlot(id){
+  try{await adminFetch('/admin/slots/'+id+'/block',{method:'PUT'});loadSlots()}catch(e){alert('Chyba: '+e.message)}
+}
+async function releaseSlot(id){
+  try{await adminFetch('/admin/slots/'+id+'/release',{method:'PUT'});loadSlots()}catch(e){alert('Chyba: '+e.message)}
+}
+
+checkAuth();
+</script>
+</body>
+</html>
