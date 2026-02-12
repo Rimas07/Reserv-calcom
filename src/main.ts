@@ -16,7 +16,7 @@ async function bootstrap() {
   app.useStaticAssets(join(process.cwd(), 'public'));
 
   const expressApp = app.getHttpAdapter().getInstance();
-  expressApp.get('/', (_req: any, res: Response) => res.redirect('/booking.html'));
+  expressApp.get('/', (_req: any, res: Response) => res.redirect('/index.html'));
 
   const config = new DocumentBuilder()
     .setTitle('Rezervachka - Online Booking')
