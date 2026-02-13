@@ -21,8 +21,33 @@ export class SlotsService {
       .sort({ startTime: 1 });
   }
 
+  async getSlotById(slotId: string) {
+    return this.slotModel.findById(slotId);
+  }
+
   async getAllSlots(doctorId: string, date: string) {
     return this.slotModel.find({ doctorId: new Types.ObjectId(doctorId), date }).sort({ startTime: 1 });
+  }
+
+  async holdSlot(slotId: string, appointmentId: string) {
+    const heldUntil = new Date(Date.now() + 15 * 60 * 1000);
+    const result = await this.slotModel.findOneAndUpdate(
+      { _id: slotId, status: 'available' },
+      { $set: { status: 'held', appointmentId, heldUntil } },
+      { new: true },
+    );
+    if (!result) throw new ConflictException('Slot is already booked');
+    return result;
+  }
+
+  async confirmSlot(slotId: string) {
+    const result = await this.slotModel.findOneAndUpdate(
+      { _id: slotId, status: 'held' },
+      { $set: { status: 'booked' }, $unset: { heldUntil: '' } },
+      { new: true },
+    );
+    if (!result) throw new NotFoundException('Slot not found or not held');
+    return result;
   }
 
   async bookSlot(slotId: string, appointmentId: string) {
@@ -38,11 +63,27 @@ export class SlotsService {
   async releaseSlot(slotId: string) {
     const result = await this.slotModel.findByIdAndUpdate(
       slotId,
-      { $set: { status: 'available' }, $unset: { appointmentId: '' } },
+      { $set: { status: 'available' }, $unset: { appointmentId: '', heldUntil: '' } },
       { new: true },
     );
     if (!result) throw new NotFoundException('Slot not found');
     return result;
+  }
+
+  async releaseExpiredHolds() {
+    const expired = await this.slotModel.find({
+      status: 'held',
+      heldUntil: { $lte: new Date() },
+    });
+    const slotIds: string[] = [];
+    for (const slot of expired) {
+      await this.slotModel.findByIdAndUpdate(slot._id, {
+        $set: { status: 'available' },
+        $unset: { appointmentId: '', heldUntil: '' },
+      });
+      slotIds.push(slot._id!.toString());
+    }
+    return slotIds;
   }
 
   async blockSlot(slotId: string) {

@@ -9,6 +9,9 @@ import { UsersModule } from './users/users.module.js';
 import { DoctorsModule } from './doctors/doctors.module.js';
 import { SlotsModule } from './slots/slots.module.js';
 import { AppointmentsModule } from './appointments/appointments.module.js';
+import { StripeModule } from './stripe/stripe.module.js';
+import { TasksModule } from './tasks/tasks.module.js';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -30,6 +33,9 @@ import { AppointmentsModule } from './appointments/appointments.module.js';
     DoctorsModule,
     SlotsModule,
     AppointmentsModule,
+    StripeModule,
+    ScheduleModule.forRoot(),
+    TasksModule,
   ],
 })
 export class AppModule {}

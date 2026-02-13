@@ -6,6 +6,7 @@ import {
   Body,
   Param,
   Query,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { AppointmentsService } from './appointments.service.js';
@@ -22,9 +23,10 @@ export class AppointmentsController {
   constructor(private readonly appointmentsService: AppointmentsService) {}
 
   @Post('appointments')
-  @ApiOperation({ summary: 'Create appointment (public)' })
-  create(@Body() dto: CreateAppointmentDto) {
-    return this.appointmentsService.create(dto);
+  @ApiOperation({ summary: 'Create appointment and get Stripe checkout URL (public)' })
+  create(@Body() dto: CreateAppointmentDto, @Req() req: any) {
+    const baseUrl = `${req.protocol}://${req.get('host')}`;
+    return this.appointmentsService.create(dto, baseUrl);
   }
 
   @Post('appointments/cancel')

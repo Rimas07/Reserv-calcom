@@ -15,11 +15,14 @@ export class Slot extends Document {
   @Prop({ required: true })
   endTime: string;
 
-  @Prop({ enum: ['available', 'booked', 'blocked'], default: 'available' })
+  @Prop({ enum: ['available', 'booked', 'blocked', 'held'], default: 'available' })
   status: string;
 
   @Prop({ type: Types.ObjectId, ref: 'Appointment' })
   appointmentId?: Types.ObjectId;
+
+  @Prop()
+  heldUntil?: Date;
 }
 
 export const SlotSchema = SchemaFactory.createForClass(Slot);

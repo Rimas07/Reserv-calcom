@@ -91,7 +91,7 @@ h3{font-size:1.1rem;color:#475569;margin:16px 0 8px}
 <div id="screen1" class="screen active">
   <div class="card">
     <h1 data-t="clinicName"></h1>
-    <div class="info-row"><b data-t="address"></b>&nbsp;<span>Vinohradska 42, Praha 2</span></div>
+    <div class="info-row"><b data-t="address"></b>&nbsp;<span>U Vlečky 3086/6, Ústí nad Labem-centrum, 400 01 Ústí nad Labem</span></div>
     <div class="info-row"><b data-t="phone"></b>&nbsp;<span>+420 222 333 444</span></div>
     <div class="info-row"><b data-t="hours"></b>&nbsp;<span data-t="hoursValue"></span></div>
   </div>
@@ -510,6 +510,7 @@ async function submitBooking(e){
   const body={
     slotId:selectedSlot.id,
     doctorId:selectedDoctor._id,
+    doctorName:selectedDoctor.name,
     patientName:document.getElementById('pName').value,
     phone:document.getElementById('pPhone').value,
     email:document.getElementById('pEmail').value||undefined,
@@ -522,14 +523,10 @@ async function submitBooking(e){
     const res=await fetch(API+'/appointments',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
     const data=await res.json();
     if(!res.ok)throw new Error(data.message||t('errorBooking'));
-    const parts=selectedDate.split('-');
-    document.getElementById('confirmDetails').innerHTML=
-      `<p><b>${t('doctor')}:</b> ${selectedDoctor.name}</p>
-       <p><b>${t('service')}:</b> ${selectedService}</p>
-       <p><b>${t('date')}:</b> ${parts[2]}.${parts[1]}.${parts[0]}</p>
-       <p><b>${t('time')}:</b> ${selectedSlot.start} - ${selectedSlot.end}</p>
-       <p><b>${t('patient')}:</b> ${body.patientName}</p>
-       <p><b>${t('phoneLabel').replace(' *','')}:</b> ${body.phone}</p>`;
+    if(data.checkoutUrl){
+      window.location.href=data.checkoutUrl;
+      return;
+    }
     goTo(5);
   }catch(err){
     errEl.textContent=err.message||t('errorGeneric');
@@ -548,6 +545,20 @@ function resetForm(){
   const saved=localStorage.getItem('rez_lang');
   if(saved&&T[saved])lang=saved;
   setLang(lang);
+})();
+
+// Handle Stripe redirect
+(function(){
+  const params=new URLSearchParams(window.location.search);
+  if(params.get('success')==='1'){
+    document.getElementById('confirmDetails').innerHTML=
+      '<p style="text-align:center;font-size:1.1rem">'+t('bookingConfirmed')+'</p>';
+    goTo(5);
+    history.replaceState(null,'','/booking.html');
+  }
+  if(params.get('cancelled')==='1'){
+    history.replaceState(null,'','/booking.html');
+  }
 })();
 </script>
 </body>

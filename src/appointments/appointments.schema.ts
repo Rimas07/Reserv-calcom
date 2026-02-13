@@ -30,8 +30,17 @@ export class Appointment extends Document {
   @Prop({ required: true })
   serviceName: string;
 
-  @Prop({ enum: ['confirmed', 'cancelled'], default: 'confirmed' })
+  @Prop({ enum: ['confirmed', 'cancelled', 'pending', 'expired'], default: 'pending' })
   status: string;
+
+  @Prop({ enum: ['pending', 'paid', 'expired', 'refunded'], default: 'pending' })
+  paymentStatus: string;
+
+  @Prop()
+  stripeSessionId?: string;
+
+  @Prop()
+  amountCzk?: number;
 
   @Prop()
   cancelToken?: string;

@@ -51,6 +51,11 @@ export class CreateAppointmentDto {
   @IsNotEmpty()
   @IsString()
   serviceName: string;
+
+  @ApiPropertyOptional({ example: 'MUDr. Jan Dvorak' })
+  @IsOptional()
+  @IsString()
+  doctorName?: string;
 }
 
 export class CancelAppointmentDto {
