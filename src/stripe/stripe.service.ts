@@ -42,7 +42,7 @@ export class StripeService {
       metadata: {
         appointmentId: params.appointmentId,
       },
-      expires_at: Math.floor(Date.now() / 1000) + 15 * 60,
+      expires_at: Math.floor(Date.now() / 1000) + 30 * 60,
     });
 
     return session;

@@ -30,7 +30,7 @@ export class SlotsService {
   }
 
   async holdSlot(slotId: string, appointmentId: string) {
-    const heldUntil = new Date(Date.now() + 15 * 60 * 1000);
+    const heldUntil = new Date(Date.now() + 30 * 60 * 1000);
     const result = await this.slotModel.findOneAndUpdate(
       { _id: slotId, status: 'available' },
       { $set: { status: 'held', appointmentId, heldUntil } },
