@@ -36,6 +36,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 /* Service cards */
 .service-item{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px;display:flex;gap:12px;align-items:flex-start;margin-bottom:8px}
 .service-item:last-child{margin-bottom:0}
+.service-item-clickable:hover{border-color:#14b8a6;background:#f0fdfa}
 .service-item .svc-icon{font-size:24px;flex-shrink:0}
 .service-item .svc-name{font-size:14px;font-weight:600}
 .service-item .svc-desc{font-size:12px;color:#6b7280;margin-top:2px}
@@ -50,117 +51,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 /* Buttons */
 .btn{display:block;background:#14b8a6;color:#fff;border:none;padding:14px 24px;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;width:calc(100% - 32px);margin:0 16px 24px;text-align:center;transition:background .2s}
 .btn:hover{background:#0d9488}
-.btn:disabled{background:#94a3b8;cursor:not-allowed}
-.btn-outline{background:transparent;color:#14b8a6;border:2px solid #14b8a6}
-.btn-outline:hover{background:#f0fdfa}
-.btn-sm{padding:10px 16px;font-size:14px;width:auto;margin:0;display:inline-block}
 .btn-back{background:none;border:none;padding:0;cursor:pointer;font-size:18px;color:#6b7280}
 
 /* Top bar with back + title */
 .screen-header{padding:16px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;gap:10px}
 .screen-header h2{font-size:16px;font-weight:700;margin:0}
 
-/* Step indicator */
-.steps{display:flex;justify-content:center;gap:4px;padding:16px}
-.step{display:flex;align-items:center;gap:4px}
-.step-circle{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
-.step-circle.done{background:#14b8a6;color:#fff}
-.step-circle.active{background:#14b8a6;color:#fff}
-.step-circle.pending{background:#e5e7eb;color:#9ca3af}
-.step-label{font-size:11px;font-weight:600}
-.step-label.active-label{color:#111827}
-.step-label.pending-label{color:#9ca3af}
-.step-sep{color:#e5e7eb;margin:0 2px}
-
-/* Service type pills */
-.svc-pills{padding:0 16px 12px}
-.svc-pills-label{font-size:12px;font-weight:600;color:#6b7280;margin-bottom:6px}
-.svc-pills-wrap{display:flex;gap:6px;flex-wrap:wrap}
-.svc-pill{padding:8px 14px;border-radius:8px;font-size:12px;font-weight:600;background:#f0f2f5;color:#6b7280;cursor:pointer;border:none;transition:all .2s}
-.svc-pill.active{background:#14b8a6;color:#fff}
-.svc-pill:hover:not(.active){background:#e5e7eb}
-
-/* Doctor cards */
-.doctor-list{padding:0 16px 24px;display:flex;flex-direction:column;gap:12px}
-.doctor-card{background:#fff;border:2px solid #e5e7eb;border-radius:14px;padding:16px;cursor:pointer;transition:border-color .2s}
-.doctor-card:hover{border-color:#14b8a6}
-.doctor-inner{display:flex;gap:14px;align-items:center}
-.doc-avatar{width:60px;height:60px;border-radius:50%;background:#f0fdfa;display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0;border:2px solid #99f6e4}
-.doc-info{flex:1}
-.doc-name{font-size:15px;font-weight:700}
-.doc-spec{font-size:12px;color:#14b8a6;font-weight:600}
-.doc-langs{display:flex;gap:4px;margin-top:6px}
-.doc-lang-tag{padding:2px 8px;border-radius:12px;font-size:10px;font-weight:600;background:#cffafe;color:#0891b2}
-.doc-slots{text-align:right;flex-shrink:0}
-.doc-slots-num{font-size:14px;font-weight:800;color:#14b8a6}
-.doc-slots-label{font-size:10px;color:#9ca3af}
-.doc-arrow{font-size:16px;margin-top:4px;color:#9ca3af}
-.doc-hint{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:12px;font-size:12px;color:#92400e;display:flex;gap:8px;align-items:center}
-
-/* Selected doctor info */
-.selected-doc-info{margin:0 16px 12px;padding:10px 14px;background:#f0fdfa;border:1px solid #99f6e4;border-radius:10px;display:flex;align-items:center;gap:10px;font-size:13px}
-
-/* Month nav */
-.month-nav{display:flex;align-items:center;justify-content:center;gap:16px;padding:8px 16px;margin-bottom:8px}
-.month-nav button{background:none;border:none;font-size:16px;color:#9ca3af;cursor:pointer;padding:4px 8px}
-.month-nav button:hover{color:#14b8a6}
-.month-name{font-size:15px;font-weight:700}
-
-/* Day picker (horizontal) */
-.day-picker{display:flex;gap:6px;padding:0 16px;margin-bottom:16px;overflow-x:auto;-webkit-overflow-scrolling:touch}
-.day-picker::-webkit-scrollbar{display:none}
-.day-chip{min-width:56px;padding:10px 8px;border-radius:12px;text-align:center;cursor:pointer;border:1px solid #e5e7eb;background:#fff;transition:all .2s;flex-shrink:0}
-.day-chip:hover:not(.selected):not(.disabled){border-color:#14b8a6}
-.day-chip.selected{background:#14b8a6;color:#fff;border-color:#14b8a6}
-.day-chip.disabled{opacity:.4;cursor:default}
-.day-chip .dw{font-size:11px;font-weight:600}
-.day-chip .dn{font-size:20px;font-weight:800}
-.day-chip .dm{font-size:10px}
-.day-chip .ds{font-size:9px;margin-top:4px;font-weight:600;color:#14b8a6}
-.day-chip.selected .dw,.day-chip.selected .dm{opacity:.8}
-.day-chip.selected .ds{color:#fff}
-
-/* Time slots */
-.slots-section{padding:0 16px 24px}
-.slots-period-label{font-size:11px;font-weight:600;color:#9ca3af;margin-bottom:6px}
-.slots-grid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
-.time-slot{padding:10px 16px;border-radius:10px;font-size:14px;font-weight:600;background:#f0fdfa;color:#0d9488;cursor:pointer;border:1px solid #99f6e4;min-width:64px;text-align:center;transition:all .2s}
-.time-slot:hover:not(.selected){background:#ccfbf1}
-.time-slot.selected{background:#14b8a6;color:#fff;border-color:#14b8a6}
-
-/* Booking summary */
-.booking-summary{margin:0 16px 16px;padding:14px;background:#f0fdfa;border:1px solid #99f6e4;border-radius:12px}
-.booking-summary .bs-title{font-size:12px;font-weight:700;color:#0d9488;margin-bottom:6px}
-.booking-summary .bs-line{font-size:13px;color:#6b7280;margin-top:2px}
-.booking-summary .bs-doctor{font-size:14px;font-weight:700}
-
-/* Form */
-.form-area{padding:0 16px 24px}
-.form-group{margin-bottom:14px}
-.form-group label{display:block;font-size:12px;font-weight:600;color:#6b7280;margin-bottom:4px}
-.form-group input,.form-group select,.form-group textarea{width:100%;padding:11px 14px;border:1px solid #e5e7eb;border-radius:10px;font-size:14px;background:#fff;transition:border-color .2s;font-family:inherit}
-.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:#14b8a6}
-.form-group textarea{height:80px;resize:vertical}
-.checkbox-group{display:flex;align-items:flex-start;gap:8px;padding:8px 0;margin-bottom:14px}
-.checkbox-group input[type=checkbox]{margin-top:3px;width:18px;height:18px;accent-color:#14b8a6}
-.checkbox-group label{font-size:12px;color:#6b7280;line-height:1.4}
+/* Cal.com embed container */
+.calcom-container{padding:0 16px 24px}
+.calcom-inline{min-height:500px;border-radius:12px;overflow:hidden}
 
 /* Confirmation */
 .confirm-wrap{padding:60px 24px;text-align:center}
 .confirm-icon{width:80px;height:80px;border-radius:50%;background:#d1fae5;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;font-size:40px}
 .confirm-wrap h2{font-size:22px;font-weight:800;margin-bottom:6px}
 .confirm-sub{font-size:13px;color:#6b7280;margin-bottom:24px}
-.confirm-details{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:20px;text-align:left;margin-bottom:20px}
-.confirm-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0f2f5}
-.confirm-row:last-child{border:none}
-.confirm-row .cl{font-size:13px;color:#9ca3af}
-.confirm-row .cv{font-size:13px;font-weight:600}
 .confirm-reminder{padding:14px;background:#fffbeb;border:1px solid #fde68a;border-radius:10px;font-size:12px;color:#92400e;text-align:left;margin-bottom:20px}
-
-/* Loading / errors */
-.loading{text-align:center;padding:20px;color:#6b7280}
-.error-msg{background:#fef2f2;color:#991b1b;border-radius:8px;padding:12px;margin:12px 0;font-size:13px}
-.no-slots-msg{color:#9ca3af;font-size:13px}
 </style>
 </head>
 <body>
@@ -201,132 +107,69 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     <div class="info-chip"><div class="chip-icon">🅿️</div><div class="chip-text" data-t="parking"></div></div>
   </div>
 
-  <button class="btn" onclick="goTo(2)" data-t="bookBtn"></button>
+  <p style="text-align:center;font-size:13px;color:#6b7280;margin:0 16px 24px" data-t="bookHint"></p>
 </div>
 
-<!-- SCREEN 2: Doctor selection -->
+<!-- SCREEN 2: Cal.com Booking -->
 <div id="screen2" class="screen">
   <div class="screen-header">
     <button class="btn-back" onclick="goTo(1)">←</button>
-    <h2 data-t="selectDoctor"></h2>
-  </div>
-
-  <div id="stepsBar2"></div>
-
-  <div class="svc-pills">
-    <div class="svc-pills-label" data-t="serviceType"></div>
-    <div class="svc-pills-wrap" id="servicePills"></div>
-  </div>
-
-  <div class="doctor-list" id="doctorsList">
-    <div class="loading" data-t="loadingDoctors"></div>
-  </div>
-</div>
-
-<!-- SCREEN 3: Date & time -->
-<div id="screen3" class="screen">
-  <div class="screen-header">
-    <button class="btn-back" onclick="goTo(2)">←</button>
     <h2 data-t="selectDateTime"></h2>
   </div>
 
-  <div id="stepsBar3"></div>
-
-  <div id="selectedDoctorInfo" class="selected-doc-info"></div>
-
-  <div class="month-nav">
-    <button onclick="changeMonth(-1)">‹</button>
-    <span class="month-name" id="calMonthName"></span>
-    <button onclick="changeMonth(1)">›</button>
-  </div>
-
-  <div class="day-picker" id="dayPicker"></div>
-
-  <div id="slotsContainer" class="slots-section" style="display:none">
-    <div id="slotsDateLabel" style="font-size:13px;font-weight:700;margin-bottom:10px;color:#6b7280"></div>
-    <div id="morningSlots">
-      <div class="slots-period-label">🌅 <span data-t="morning"></span></div>
-      <div class="slots-grid" id="morningGrid"></div>
-    </div>
-    <div id="afternoonSlots">
-      <div class="slots-period-label">🌤 <span data-t="afternoon"></span></div>
-      <div class="slots-grid" id="afternoonGrid"></div>
-    </div>
-    <div id="noSlots" style="display:none;text-align:center;padding:20px;color:#9ca3af" data-t="noSlots"></div>
-  </div>
-
-  <div id="slotsLoading" class="loading" style="display:none" data-t="loadingSlots"></div>
-
-  <button id="continueBtn" class="btn" style="display:none" onclick="goToForm()"></button>
-</div>
-
-<!-- SCREEN 4: Patient form -->
-<div id="screen4" class="screen">
-  <div class="screen-header">
-    <button class="btn-back" onclick="goTo(3)">←</button>
-    <h2 data-t="yourDetails"></h2>
-  </div>
-
-  <div id="stepsBar4"></div>
-
-  <div id="bookingSummary" class="booking-summary"></div>
-
-  <div class="form-area">
-    <form id="patientForm" onsubmit="submitBooking(event)">
-      <div class="form-group">
-        <label data-t="fullName"></label>
-        <input type="text" id="pName" required data-t-ph="phName">
-      </div>
-      <div class="form-group">
-        <label data-t="phoneLabel"></label>
-        <input type="tel" id="pPhone" required placeholder="+420 777 123 456">
-      </div>
-      <div class="form-group">
-        <label>Email</label>
-        <input type="email" id="pEmail" placeholder="jan@example.com">
-      </div>
-      <div class="form-group">
-        <label data-t="birthDate"></label>
-        <input type="date" id="pBirth">
-      </div>
-      <div class="form-group">
-        <label data-t="insuranceLabel"></label>
-        <select id="pInsurance">
-          <option value="" data-t="selectOption"></option>
-          <option value="VZP (111)">VZP (111)</option>
-          <option value="CPZP (205)">CPZP (205)</option>
-          <option value="OZP (207)">OZP (207)</option>
-          <option value="Vojenska (201)">Vojenska (201)</option>
-          <option value="Samoplatce" data-t-opt="selfPay"></option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label data-t="description"></label>
-        <textarea id="pDesc" data-t-ph="phDesc"></textarea>
-      </div>
-      <div class="checkbox-group">
-        <input type="checkbox" id="pGdpr" required>
-        <label for="pGdpr" data-t="gdpr"></label>
-      </div>
-      <div id="bookingError" class="error-msg" style="display:none"></div>
-      <button type="submit" class="btn" style="width:100%;margin:0" id="submitBtn" data-t="confirmBooking"></button>
-    </form>
+  <div class="calcom-container">
+    <!-- Cal.com inline embed will be rendered here -->
+    <div id="cal-inline" class="calcom-inline"></div>
   </div>
 </div>
 
-<!-- SCREEN 5: Confirmation -->
-<div id="screen5" class="screen">
+<!-- SCREEN 3: Confirmation -->
+<div id="screen3" class="screen">
   <div class="confirm-wrap">
     <div class="confirm-icon">✅</div>
     <h2 data-t="bookingConfirmed"></h2>
     <p class="confirm-sub" data-t="smsSent"></p>
-    <div id="confirmDetails" class="confirm-details"></div>
     <div class="confirm-reminder" data-t="reminderText"></div>
-    <button class="btn" style="width:100%;margin:0 0 8px 0" onclick="goTo(1);resetForm()" data-t="backHome"></button>
+    <button class="btn" style="width:100%;margin:0" onclick="goTo(1)" data-t="backHome"></button>
   </div>
 </div>
 
 </div>
+
+<!-- Cal.com Embed Script -->
+<!-- IMPORTANT: Replace YOUR_CALCOM_USERNAME with your actual cal.com username or team slug -->
+<script type="text/javascript">
+(function (C, A, L) {
+  let p = function (a, ar) { a.q.push(ar); };
+  let d = C.document;
+  C.Cal = C.Cal || function () {
+    let cal = C.Cal;
+    let ar = arguments;
+    if (!cal.loaded) {
+      cal.ns = {};
+      cal.q = cal.q || [];
+      d.head.appendChild(d.createElement("script")).src = A;
+      cal.loaded = true;
+    }
+    if (ar[0] === L) {
+      const api = function () { p(api, arguments); };
+      const namespace = ar[1];
+      api.q = api.q || [];
+      if (typeof namespace === "string") {
+        cal.ns[namespace] = cal.ns[namespace] || api;
+        p(cal.ns[namespace], ar);
+        p(cal, ["initNamespace", namespace]);
+      } else {
+        p(cal, ar);
+      }
+      return;
+    }
+    p(cal, ar);
+  };
+})(window, "https://app.cal.com/embed/embed.js", "init");
+
+Cal("init", { origin: "https://cal.com" });
+</script>
 
 <script>
 const T={
@@ -339,29 +182,12 @@ cs:{
   svc2:'Opakovaná návštěva',svc2d:'Výsledky analýz, úprava léčby',svc2dur:'20 min',
   svc3:'Ultrazvukové vyšetření',svc3d:'UZ ledvin, moč. měchýře, prostaty',svc3dur:'30 min',
   svc4:'Urologické procedury',svc4d:'Léčebné procedury dle ordinace lékaře',svc4dur:'15-45 min',
-  selfPay:'Samoplátce',
-  bookBtn:'Objednat se na vyšetření →',
-  back:'Zpět',selectDoctor:'Vyberte lékaře',serviceType:'Typ služby:',
-  loadingDoctors:'Načítám lékaře...',langLabel:'Jazyky',slotsToday:'volných termínů',
-  noDoctors:'Žádní lékaři nejsou k dispozici.',errorDoctors:'Chyba při načítání lékařů.',
-  selectDateTime:'Vyberte čas',
-  months:['Leden','Únor','Březen','Duben','Květen','Červen','Červenec','Srpen','Září','Říjen','Listopad','Prosinec'],
-  daysShort:['Po','Út','St','Čt','Pá','So','Ne'],
-  morning:'Dopoledne',afternoon:'Odpoledne',noSlots:'Žádné volné termíny',loadingSlots:'Načítám termíny...',
-  noSlotsShort:'Žádné termíny',errorSlots:'Chyba při načítání termínů.',
-  continueWith:'Pokračovat —',
-  yourDetails:'Vaše údaje',fullName:'Jméno a příjmení *',phoneLabel:'Telefon *',
-  birthDate:'Datum narození',insuranceLabel:'Pojišťovna',selectOption:'-- Vyberte --',
-  description:'Popis problému (nepovinné)',phName:'Jan Novák',phDesc:'Stručně popište vaše obtíže...',
-  gdpr:'Souhlasím se zpracováním osobních údajů v souladu s GDPR pro účely rezervace a poskytování zdravotní péče.',
-  confirmBooking:'Potvrdit rezervaci ✓',sending:'Odesílám...',
-  errorBooking:'Chyba při rezervaci',errorGeneric:'Došlo k chybě. Zkuste to prosím znovu.',
-  bookingConfirmed:'Rezervace potvrzena!',smsSent:'SMS potvrzení bylo odesláno na váš telefon',
-  doctor:'Lékař',service:'Služba',date:'Datum',time:'Čas',patient:'Pacient',
+  bookHint:'👆 Vyberte službu pro objednání',
+  selectDateTime:'Výběr termínu',
+  bookingConfirmed:'Rezervace potvrzena!',
+  smsSent:'Potvrzení bylo odesláno na váš email',
   reminderText:'📍 Nezapomeňte: Vezměte s sebou kartičku pojištěnce a občanský průkaz. Přijďte 10 minut před vyšetřením.',
-  backHome:'Zpět na hlavní stránku',
-  stepDoctor:'Lékař',stepTime:'Čas',stepData:'Údaje',stepDone:'Hotovo',
-  yourBooking:'Vaše rezervace:',hintMultilang:''
+  backHome:'Zpět na hlavní stránku'
 },
 en:{
   clinicName:'Urology Clinic',
@@ -372,29 +198,12 @@ en:{
   svc2:'Follow-up visit',svc2d:'Test results, treatment adjustment',svc2dur:'20 min',
   svc3:'Ultrasound examination',svc3d:'Kidney, bladder, prostate ultrasound',svc3dur:'30 min',
   svc4:'Urological procedures',svc4d:'Treatment procedures as prescribed',svc4dur:'15-45 min',
-  selfPay:'Self-pay',
-  bookBtn:'Book an appointment →',
-  back:'Back',selectDoctor:'Choose a doctor',serviceType:'Service type:',
-  loadingDoctors:'Loading doctors...',langLabel:'Languages',slotsToday:'available slots',
-  noDoctors:'No doctors available.',errorDoctors:'Error loading doctors.',
+  bookHint:'👆 Select a service to book',
   selectDateTime:'Choose date & time',
-  months:['January','February','March','April','May','June','July','August','September','October','November','December'],
-  daysShort:['Mo','Tu','We','Th','Fr','Sa','Su'],
-  morning:'Morning',afternoon:'Afternoon',noSlots:'No available slots',loadingSlots:'Loading slots...',
-  noSlotsShort:'No slots',errorSlots:'Error loading slots.',
-  continueWith:'Continue —',
-  yourDetails:'Your details',fullName:'Full name *',phoneLabel:'Phone *',
-  birthDate:'Date of birth',insuranceLabel:'Insurance',selectOption:'-- Select --',
-  description:'Problem description (optional)',phName:'John Smith',phDesc:'Briefly describe your symptoms...',
-  gdpr:'I agree to the processing of personal data in accordance with GDPR for booking and healthcare purposes.',
-  confirmBooking:'Confirm booking ✓',sending:'Sending...',
-  errorBooking:'Booking error',errorGeneric:'An error occurred. Please try again.',
-  bookingConfirmed:'Booking confirmed!',smsSent:'SMS confirmation has been sent to your phone',
-  doctor:'Doctor',service:'Service',date:'Date',time:'Time',patient:'Patient',
+  bookingConfirmed:'Booking confirmed!',
+  smsSent:'Confirmation has been sent to your email',
   reminderText:'📍 Don\'t forget: Bring your insurance card and ID. Arrive 10 minutes before your appointment.',
-  backHome:'Back to main page',
-  stepDoctor:'Doctor',stepTime:'Time',stepData:'Details',stepDone:'Done',
-  yourBooking:'Your booking:',hintMultilang:''
+  backHome:'Back to main page'
 },
 ru:{
   clinicName:'Урологическая клиника',
@@ -405,29 +214,12 @@ ru:{
   svc2:'Повторный приём',svc2d:'Результаты анализов, коррекция лечения',svc2dur:'20 мин',
   svc3:'УЗИ обследование',svc3d:'УЗИ почек, мочевого пузыря, простаты',svc3dur:'30 мин',
   svc4:'Урологические процедуры',svc4d:'Лечебные процедуры по назначению врача',svc4dur:'15-45 мин',
-  selfPay:'Самоплательщик',
-  bookBtn:'Записаться на приём →',
-  back:'Назад',selectDoctor:'Выберите врача',serviceType:'Тип приёма:',
-  loadingDoctors:'Загрузка врачей...',langLabel:'Языки',slotsToday:'свободных слотов',
-  noDoctors:'Нет доступных врачей.',errorDoctors:'Ошибка загрузки врачей.',
+  bookHint:'👆 Выберите услугу для записи',
   selectDateTime:'Выберите время',
-  months:['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'],
-  daysShort:['Пн','Вт','Ср','Чт','Пт','Сб','Вс'],
-  morning:'Утро',afternoon:'День',noSlots:'Нет свободных слотов',loadingSlots:'Загрузка слотов...',
-  noSlotsShort:'Нет слотов',errorSlots:'Ошибка загрузки слотов.',
-  continueWith:'Продолжить —',
-  yourDetails:'Ваши данные',fullName:'Имя и фамилия *',phoneLabel:'Телефон *',
-  birthDate:'Дата рождения',insuranceLabel:'Страховка',selectOption:'-- Выберите --',
-  description:'Описание проблемы (необязательно)',phName:'Иван Новак',phDesc:'Кратко опишите ваши жалобы...',
-  gdpr:'Я согласен(а) на обработку персональных данных в соответствии с GDPR для целей записи и оказания медицинской помощи.',
-  confirmBooking:'Подтвердить запись ✓',sending:'Отправка...',
-  errorBooking:'Ошибка записи',errorGeneric:'Произошла ошибка. Попробуйте ещё раз.',
-  bookingConfirmed:'Запись подтверждена!',smsSent:'SMS-подтверждение отправлено на ваш телефон',
-  doctor:'Врач',service:'Услуга',date:'Дата',time:'Время',patient:'Пациент',
+  bookingConfirmed:'Запись подтверждена!',
+  smsSent:'Подтверждение отправлено на ваш email',
   reminderText:'📍 Не забудьте: Принесите карту страховки и удостоверение личности. Приходите за 10 минут до приёма.',
-  backHome:'На главную',
-  stepDoctor:'Врач',stepTime:'Время',stepData:'Данные',stepDone:'Готово',
-  yourBooking:'Ваша запись:',hintMultilang:'MUDr. Petrova говорит по-русски и по-украински'
+  backHome:'На главную'
 },
 uk:{
   clinicName:'Урологічна клініка',
@@ -438,34 +230,23 @@ uk:{
   svc2:'Повторний візит',svc2d:'Результати аналізів, корекція лікування',svc2dur:'20 хв',
   svc3:'УЗД обстеження',svc3d:'УЗД нирок, сечового міхура, простати',svc3dur:'30 хв',
   svc4:'Урологічні процедури',svc4d:'Лікувальні процедури за призначенням лікаря',svc4dur:'15-45 хв',
-  selfPay:'Самоплатник',
-  bookBtn:'Записатися на прийом →',
-  back:'Назад',selectDoctor:'Оберіть лікаря',serviceType:'Тип послуги:',
-  loadingDoctors:'Завантаження лікарів...',langLabel:'Мови',slotsToday:'вільних слотів',
-  noDoctors:'Немає доступних лікарів.',errorDoctors:'Помилка завантаження лікарів.',
+  bookHint:'👆 Оберіть послугу для запису',
   selectDateTime:'Оберіть час',
-  months:['Січень','Лютий','Березень','Квітень','Травень','Червень','Липень','Серпень','Вересень','Жовтень','Листопад','Грудень'],
-  daysShort:['Пн','Вт','Ср','Чт','Пт','Сб','Нд'],
-  morning:'Ранок',afternoon:'Після обіду',noSlots:'Немає вільних слотів',loadingSlots:'Завантаження слотів...',
-  noSlotsShort:'Немає слотів',errorSlots:'Помилка завантаження слотів.',
-  continueWith:'Продовжити —',
-  yourDetails:'Ваші дані',fullName:"Ім'я та прізвище *",phoneLabel:'Телефон *',
-  birthDate:'Дата народження',insuranceLabel:'Страховка',selectOption:'-- Оберіть --',
-  description:'Опис проблеми (необов\'язково)',phName:'Іван Новак',phDesc:'Коротко опишіть ваші скарги...',
-  gdpr:'Я погоджуюсь на обробку персональних даних відповідно до GDPR для цілей запису та надання медичної допомоги.',
-  confirmBooking:'Підтвердити запис ✓',sending:'Відправка...',
-  errorBooking:'Помилка запису',errorGeneric:'Сталася помилка. Спробуйте ще раз.',
-  bookingConfirmed:'Запис підтверджено!',smsSent:'SMS-підтвердження відправлено на ваш телефон',
-  doctor:'Лікар',service:'Послуга',date:'Дата',time:'Час',patient:'Пацієнт',
+  bookingConfirmed:'Запис підтверджено!',
+  smsSent:'Підтвердження відправлено на ваш email',
   reminderText:'📍 Не забудьте: Візьміть з собою картку страхування та посвідчення особи. Прийдіть за 10 хвилин до прийому.',
-  backHome:'На головну',
-  stepDoctor:'Лікар',stepTime:'Час',stepData:'Дані',stepDone:'Готово',
-  yourBooking:'Ваш запис:',hintMultilang:'MUDr. Petrova розмовляє російською та українською'
+  backHome:'На головну'
 }
 };
 
 const svcIcons=['🔬','📋','🏥','💉'];
 const svcKeys=['svc1','svc2','svc3','svc4'];
+const svcCalLinks=[
+  'zorych-clinic/primarni-konzultace',
+  'zorych-clinic/opakovana-navsteva',
+  'zorych-clinic/ultrazvukove-vysetreni',
+  'zorych-clinic/urologicke-procedury-lecebne-procedury-dle-ordinace-lekare'
+];
 
 let lang='cs';
 function t(key){return T[lang]?.[key]||T['cs']?.[key]||key}
@@ -475,9 +256,6 @@ function setLang(l){
   document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.dataset.lang===l));
   applyTranslations();
   renderServiceCards();
-  renderServicePills();
-  if(calYear)renderDayPicker();
-  updateStepBars();
 }
 
 function applyTranslations(){
@@ -485,278 +263,60 @@ function applyTranslations(){
     const key=el.getAttribute('data-t');
     if(T[lang]?.[key])el.textContent=T[lang][key];
   });
-  document.querySelectorAll('[data-t-ph]').forEach(el=>{
-    const key=el.getAttribute('data-t-ph');
-    if(T[lang]?.[key])el.placeholder=T[lang][key];
-  });
-  document.querySelectorAll('[data-t-opt]').forEach(el=>{
-    const key=el.getAttribute('data-t-opt');
-    if(T[lang]?.[key])el.textContent=T[lang][key];
-  });
-  document.title=t('clinicName')+' – '+t('bookBtn');
+  document.title=t('clinicName')+' – Online rezervace';
 }
 
 function renderServiceCards(){
   const el=document.getElementById('serviceCards');
   el.innerHTML=svcKeys.map((k,i)=>`
-    <div class="service-item">
+    <div class="service-item service-item-clickable" onclick="openService(${i})" style="cursor:pointer">
       <span class="svc-icon">${svcIcons[i]}</span>
       <div style="flex:1">
         <div class="svc-name">${t(k)}</div>
         <div class="svc-desc">${t(k+'d')}</div>
       </div>
-      <div class="svc-dur">⏱ ${t(k+'dur')}</div>
+      <div class="svc-dur">⏱ ${t(k+'dur')} →</div>
     </div>
   `).join('');
 }
 
-function renderServicePills(){
-  const el=document.getElementById('servicePills');
-  el.innerHTML=svcKeys.map((k,i)=>`
-    <button class="svc-pill${selectedServiceIdx===i?' active':''}" onclick="selectService(${i})">${svcIcons[i]} ${t(k)}</button>
-  `).join('');
-}
-
-function buildStepBar(activeStep){
-  const steps=[t('stepDoctor'),t('stepTime'),t('stepData'),t('stepDone')];
-  return '<div class="steps">'+steps.map((s,i)=>{
-    const done=i<activeStep;const active=i===activeStep;
-    return `<div class="step">
-      <div class="step-circle ${done?'done':active?'active':'pending'}">${done?'✓':i+1}</div>
-      <span class="step-label ${active||done?'active-label':'pending-label'}">${s}</span>
-      ${i<3?'<span class="step-sep">—</span>':''}
-    </div>`;
-  }).join('')+'</div>';
-}
-
-function updateStepBars(){
-  const s2=document.getElementById('stepsBar2');if(s2)s2.innerHTML=buildStepBar(0);
-  const s3=document.getElementById('stepsBar3');if(s3)s3.innerHTML=buildStepBar(1);
-  const s4=document.getElementById('stepsBar4');if(s4)s4.innerHTML=buildStepBar(2);
-}
-
-const API='';
-let doctors=[];
-let selectedDoctor=null;
-let selectedServiceIdx=0;
-let selectedService='';
-let selectedServiceKey='';
-let selectedDate='';
-let selectedSlot=null;
-let calYear,calMonth;
+let currentCalLink='';
 
 function goTo(n){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById('screen'+n).classList.add('active');
-  if(n===2){loadDoctors();updateStepBars()}
-  if(n===3){initCalendar();updateStepBars()}
-  if(n===4)updateStepBars();
   window.scrollTo(0,0);
 }
 
-function selectService(idx){
-  selectedServiceIdx=idx;
-  selectedServiceKey=svcKeys[idx];
-  selectedService=t(selectedServiceKey);
-  renderServicePills();
+function openService(idx){
+  const link=svcCalLinks[idx];
+  goTo(2);
+  loadCalcomEmbed(link);
 }
 
-async function loadDoctors(){
-  const el=document.getElementById('doctorsList');
-  el.innerHTML='<div class="loading">'+t('loadingDoctors')+'</div>';
-  try{
-    const res=await fetch(API+'/doctors');
-    doctors=await res.json();
-    if(!doctors.length){el.innerHTML='<p style="padding:20px;text-align:center;color:#9ca3af">'+t('noDoctors')+'</p>';return}
-    let html='';
-    for(const d of doctors){
-      let slotCount='';
-      try{
-        const r=await fetch(API+'/slots?doctorId='+d._id+'&date='+todayStr());
-        const s=await r.json();
-        slotCount=s.length+' '+t('slotsToday');
-      }catch(e){}
-      const docIcon=(d.languages||[]).some(l=>['RU','UA'].includes(l.toUpperCase()))?'👩‍⚕️':'👨‍⚕️';
-      html+=`<div class="doctor-card" onclick="selectDoctor('${d._id}')">
-        <div class="doctor-inner">
-          <div class="doc-avatar">${docIcon}</div>
-          <div class="doc-info">
-            <div class="doc-name">${d.name}</div>
-            <div class="doc-spec">${d.specialization}</div>
-            <div class="doc-langs">${(d.languages||[]).map(l=>'<span class="doc-lang-tag">'+l+'</span>').join('')}</div>
-          </div>
-          <div class="doc-slots">
-            ${slotCount?`<div class="doc-slots-num">${slotCount.split(' ')[0]}</div><div class="doc-slots-label">${t('slotsToday')}</div>`:''}
-            <div class="doc-arrow">→</div>
-          </div>
-        </div>
-      </div>`;
-    }
-    const hint=t('hintMultilang');
-    if(hint)html+=`<div class="doc-hint"><span>💡</span><span>${hint}</span></div>`;
-    el.innerHTML=html;
-  }catch(e){el.innerHTML='<div class="error-msg">'+t('errorDoctors')+'</div>'}
-}
-
-function selectDoctor(id){
-  selectedDoctor=doctors.find(d=>d._id===id);
-  if(!selectedService)selectService(selectedServiceIdx);
-  goTo(3);
-}
-
-function todayStr(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
-
-function initCalendar(){
-  if(!calYear){const n=new Date();calYear=n.getFullYear();calMonth=n.getMonth()}
-  const docIcon=(selectedDoctor.languages||[]).some(l=>['RU','UA'].includes(l.toUpperCase()))?'👩‍⚕️':'👨‍⚕️';
-  document.getElementById('selectedDoctorInfo').innerHTML=
-    `<span style="font-size:20px">${docIcon}</span><div><strong>${selectedDoctor.name}</strong> · ${selectedService} (${t(selectedServiceKey+'dur')})</div>`;
-  renderDayPicker();
-}
-
-function changeMonth(dir){
-  calMonth+=dir;
-  if(calMonth<0){calMonth=11;calYear--}
-  if(calMonth>11){calMonth=0;calYear++}
-  selectedDate='';selectedSlot=null;
-  document.getElementById('slotsContainer').style.display='none';
-  document.getElementById('continueBtn').style.display='none';
-  renderDayPicker();
-}
-
-function renderDayPicker(){
-  const months=T[lang].months;
-  document.getElementById('calMonthName').textContent=months[calMonth]+' '+calYear;
-  const daysInMonth=new Date(calYear,calMonth+1,0).getDate();
-  const today=new Date();today.setHours(0,0,0,0);
-  const dayNames=T[lang].daysShort;
-  const monthNames=T[lang].months;
-  const shortMonth=monthNames[calMonth].substring(0,3).toLowerCase();
-
-  let html='';
-  for(let d=1;d<=daysInMonth;d++){
-    const dt=new Date(calYear,calMonth,d);
-    const dateStr=`${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const isPast=dt<today;
-    const isWeekend=dt.getDay()===0||dt.getDay()===6;
-    const dayIdx=(dt.getDay()+6)%7; // Mon=0
-    const sel=dateStr===selectedDate;
-    const dis=isPast||isWeekend;
-    html+=`<div class="day-chip${sel?' selected':''}${dis?' disabled':''}" ${dis?'':`onclick="selectDate('${dateStr}')"`}>
-      <div class="dw">${dayNames[dayIdx]}</div>
-      <div class="dn">${d}</div>
-      <div class="dm">${shortMonth}</div>
-    </div>`;
+function loadCalcomEmbed(calLink){
+  // Clear previous embed if switching services
+  const container=document.getElementById('cal-inline');
+  if(currentCalLink!==calLink){
+    container.innerHTML='';
+    currentCalLink=calLink;
   }
-  document.getElementById('dayPicker').innerHTML=html;
 
-  // Scroll to selected or today
-  setTimeout(()=>{
-    const picker=document.getElementById('dayPicker');
-    const selEl=picker.querySelector('.selected')||picker.querySelector('.day-chip:not(.disabled)');
-    if(selEl)selEl.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});
-  },50);
-}
+  Cal("inline", {
+    elementOrSelector: "#cal-inline",
+    calLink: calLink,
+    layout: "month_view",
+    config: {
+      theme: "light",
+    },
+  });
 
-async function selectDate(date){
-  selectedDate=date;selectedSlot=null;
-  document.getElementById('continueBtn').style.display='none';
-  renderDayPicker();
-  const container=document.getElementById('slotsContainer');
-  const loading=document.getElementById('slotsLoading');
-  container.style.display='none';loading.style.display='block';
-  try{
-    const res=await fetch(API+`/slots?doctorId=${selectedDoctor._id}&date=${date}`);
-    const slots=await res.json();
-    loading.style.display='none';container.style.display='block';
-    const parts=date.split('-');
-    const dayNames=T[lang].daysShort;
-    const dt=new Date(calYear,parseInt(parts[1])-1,parseInt(parts[2]));
-    const dayIdx=(dt.getDay()+6)%7;
-    document.getElementById('slotsDateLabel').textContent=
-      `${dayNames[dayIdx]}, ${parts[2]}.${parts[1]}.${parts[0]} — ${slots.length?t('slotsToday'):t('noSlots')}`;
-
-    const morning=slots.filter(s=>s.startTime<'12:00');
-    const afternoon=slots.filter(s=>s.startTime>='12:00');
-
-    document.getElementById('morningSlots').style.display=morning.length?'block':'none';
-    document.getElementById('morningGrid').innerHTML=morning.length?
-      morning.map(s=>`<div class="time-slot" onclick="selectSlot(this,'${s._id}','${s.startTime}','${s.endTime}')">${s.startTime}</div>`).join(''):'';
-
-    document.getElementById('afternoonSlots').style.display=afternoon.length?'block':'none';
-    document.getElementById('afternoonGrid').innerHTML=afternoon.length?
-      afternoon.map(s=>`<div class="time-slot" onclick="selectSlot(this,'${s._id}','${s.startTime}','${s.endTime}')">${s.startTime}</div>`).join(''):'';
-
-    document.getElementById('noSlots').style.display=slots.length?'none':'block';
-  }catch(e){loading.style.display='none';container.innerHTML='<div class="error-msg">'+t('errorSlots')+'</div>'}
-}
-
-function selectSlot(el,id,start,end){
-  document.querySelectorAll('.time-slot').forEach(s=>s.classList.remove('selected'));
-  el.classList.add('selected');
-  selectedSlot={id,start,end};
-  // Show continue button
-  const parts=selectedDate.split('-');
-  const dayNames=T[lang].daysShort;
-  const dt=new Date(calYear,parseInt(parts[1])-1,parseInt(parts[2]));
-  const dayIdx=(dt.getDay()+6)%7;
-  const btn=document.getElementById('continueBtn');
-  btn.textContent=`${t('continueWith')} ${dayNames[dayIdx]} ${parts[2]}.${parts[1]}, ${start} →`;
-  btn.style.display='block';
-}
-
-function goToForm(){
-  if(!selectedSlot)return;
-  const parts=selectedDate.split('-');
-  const docIcon=(selectedDoctor.languages||[]).some(l=>['RU','UA'].includes(l.toUpperCase()))?'👩‍⚕️':'👨‍⚕️';
-  document.getElementById('bookingSummary').innerHTML=`
-    <div class="bs-title">${t('yourBooking')}</div>
-    <div class="bs-doctor">${docIcon} ${selectedDoctor.name}</div>
-    <div class="bs-line">${svcIcons[selectedServiceIdx]} ${selectedService} · ${t(selectedServiceKey+'dur')}</div>
-    <div class="bs-line">📅 ${parts[2]}.${parts[1]}.${parts[0]} · ${selectedSlot.start}</div>`;
-  goTo(4);
-}
-
-async function submitBooking(e){
-  e.preventDefault();
-  const btn=document.getElementById('submitBtn');
-  const errEl=document.getElementById('bookingError');
-  errEl.style.display='none';btn.disabled=true;btn.textContent=t('sending');
-  const body={
-    slotId:selectedSlot.id,
-    doctorId:selectedDoctor._id,
-    doctorName:selectedDoctor.name,
-    patientName:document.getElementById('pName').value,
-    phone:document.getElementById('pPhone').value,
-    email:document.getElementById('pEmail').value||undefined,
-    birthDate:document.getElementById('pBirth').value||undefined,
-    insurance:document.getElementById('pInsurance').value||undefined,
-    description:document.getElementById('pDesc').value||undefined,
-    serviceName:selectedService
-  };
-  try{
-    const res=await fetch(API+'/appointments',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-    const data=await res.json();
-    if(!res.ok)throw new Error(data.message||t('errorBooking'));
-    if(data.checkoutUrl){window.location.href=data.checkoutUrl;return}
-    // Show confirmation
-    const parts=selectedDate.split('-');
-    document.getElementById('confirmDetails').innerHTML=[
-      {l:t('doctor'),v:selectedDoctor.name},
-      {l:t('service'),v:selectedService},
-      {l:t('date'),v:`${parts[2]}.${parts[1]}.${parts[0]}`},
-      {l:t('time'),v:`${selectedSlot.start} (${t(selectedServiceKey+'dur')})`},
-      {l:t('patient'),v:document.getElementById('pName').value}
-    ].map(r=>`<div class="confirm-row"><span class="cl">${r.l}</span><span class="cv">${r.v}</span></div>`).join('');
-    goTo(5);
-  }catch(err){
-    errEl.textContent=err.message||t('errorGeneric');errEl.style.display='block';
-  }finally{btn.disabled=false;btn.textContent=t('confirmBooking')}
-}
-
-function resetForm(){
-  document.getElementById('patientForm').reset();
-  selectedDoctor=null;selectedSlot=null;selectedDate='';calYear=null;calMonth=null;
+  Cal("on", {
+    action: "bookingSuccessful",
+    callback: function(e) {
+      goTo(3);
+    },
+  });
 }
 
 // Init
@@ -764,17 +324,6 @@ function resetForm(){
   const saved=localStorage.getItem('rez_lang');
   if(saved&&T[saved])lang=saved;
   setLang(lang);
-})();
-
-// Stripe redirect
-(function(){
-  const params=new URLSearchParams(window.location.search);
-  if(params.get('success')==='1'){
-    document.getElementById('confirmDetails').innerHTML=
-      '<p style="text-align:center;font-size:1.1rem;padding:12px">'+t('bookingConfirmed')+'</p>';
-    goTo(5);history.replaceState(null,'','/booking.html');
-  }
-  if(params.get('cancelled')==='1')history.replaceState(null,'','/booking.html');
 })();
 </script>
 </body>

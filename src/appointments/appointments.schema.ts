@@ -1,19 +1,19 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import { Document } from 'mongoose';
 
 @Schema({ timestamps: true })
 export class Appointment extends Document {
-  @Prop({ type: Types.ObjectId, ref: 'Slot', required: true })
-  slotId: Types.ObjectId;
+  @Prop({ required: true })
+  calcomBookingId: string;
 
-  @Prop({ type: Types.ObjectId, ref: 'Doctor', required: true })
-  doctorId: Types.ObjectId;
+  @Prop({ required: true, unique: true })
+  calcomBookingUid: string;
 
   @Prop({ required: true })
   patientName: string;
 
-  @Prop({ required: true })
-  phone: string;
+  @Prop()
+  phone?: string;
 
   @Prop()
   email?: string;
@@ -30,20 +30,17 @@ export class Appointment extends Document {
   @Prop({ required: true })
   serviceName: string;
 
-  @Prop({ enum: ['confirmed', 'cancelled', 'pending', 'expired'], default: 'pending' })
+  @Prop()
+  doctorName?: string;
+
+  @Prop()
+  startTime?: string;
+
+  @Prop()
+  endTime?: string;
+
+  @Prop({ enum: ['confirmed', 'cancelled', 'rescheduled'], default: 'confirmed' })
   status: string;
-
-  @Prop({ enum: ['pending', 'paid', 'expired', 'refunded'], default: 'pending' })
-  paymentStatus: string;
-
-  @Prop()
-  stripeSessionId?: string;
-
-  @Prop()
-  amountCzk?: number;
-
-  @Prop()
-  cancelToken?: string;
 }
 
 export const AppointmentSchema = SchemaFactory.createForClass(Appointment);
