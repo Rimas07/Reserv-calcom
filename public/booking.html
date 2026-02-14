@@ -282,12 +282,10 @@ function openService(idx){
 }
 
 function loadCalcomEmbed(calLink){
-  // Clear previous embed if switching services
-  const container=document.getElementById('cal-inline');
-  if(currentCalLink!==calLink){
-    container.innerHTML='';
-    currentCalLink=calLink;
-  }
+  // Always destroy and recreate the embed container for a fresh booking form
+  const wrapper=document.getElementById('cal-inline');
+  wrapper.innerHTML='';
+  currentCalLink=calLink;
 
   Cal("inline", {
     elementOrSelector: "#cal-inline",
