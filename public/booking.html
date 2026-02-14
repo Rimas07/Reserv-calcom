@@ -7,66 +7,99 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f2f5;color:#111827;line-height:1.5;min-height:100vh}
-.container{max-width:480px;margin:0 auto;min-height:100vh;background:#fff;box-shadow:0 0 40px rgba(0,0,0,.08)}
+.container{max-width:960px;margin:0 auto;min-height:100vh;background:#fff;box-shadow:0 0 40px rgba(0,0,0,.08)}
 .screen{display:none}
 .screen.active{display:block}
 
 /* Language bar */
-.lang-bar{display:flex;justify-content:flex-end;gap:4px;padding:8px 16px;background:#fff}
-.lang-btn{background:#fff;border:2px solid #e5e7eb;border-radius:8px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:700;color:#6b7280;transition:all .2s}
+.lang-bar{display:flex;justify-content:flex-end;gap:6px;padding:12px 32px;background:#fff}
+.lang-btn{background:#fff;border:2px solid #e5e7eb;border-radius:8px;padding:6px 16px;cursor:pointer;font-size:13px;font-weight:700;color:#6b7280;transition:all .2s}
 .lang-btn:hover{border-color:#14b8a6;color:#14b8a6}
 .lang-btn.active{background:#14b8a6;color:#fff;border-color:#14b8a6}
 
 /* Header gradient */
-.hero{background:linear-gradient(135deg,#0d9488,#14b8a6,#2dd4bf);padding:32px 24px;color:#fff;text-align:center}
-.hero-icon{font-size:36px;margin-bottom:8px}
-.hero h1{font-size:22px;font-weight:800;margin-bottom:6px}
-.hero-sub{font-size:13px;opacity:.85}
+.hero{background:linear-gradient(135deg,#0d9488,#14b8a6,#2dd4bf);padding:48px 32px;color:#fff;text-align:center}
+.hero-icon{font-size:48px;margin-bottom:12px}
+.hero h1{font-size:28px;font-weight:800;margin-bottom:8px}
+.hero-sub{font-size:15px;opacity:.85}
 
 /* Alert banner */
-.alert-banner{margin:16px;padding:14px 16px;background:#f0fdfa;border:2px solid #99f6e4;border-radius:12px;display:flex;align-items:center;gap:10px}
-.alert-banner .icon{font-size:20px;flex-shrink:0}
-.alert-banner .title{font-size:13px;font-weight:700;color:#0d9488}
-.alert-banner .sub{font-size:12px;color:#6b7280}
+.alert-banner{margin:24px 32px;padding:16px 20px;background:#f0fdfa;border:2px solid #99f6e4;border-radius:12px;display:flex;align-items:center;gap:12px}
+.alert-banner .icon{font-size:22px;flex-shrink:0}
+.alert-banner .title{font-size:15px;font-weight:700;color:#0d9488}
+.alert-banner .sub{font-size:13px;color:#6b7280}
 
 /* Cards */
-.card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.08);margin:0 16px 16px;padding:20px}
-.card h2{font-size:14px;font-weight:700;margin-bottom:12px}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.08);margin:0 32px 20px;padding:24px}
+.card h2{font-size:16px;font-weight:700;margin-bottom:14px}
 
 /* Service cards */
-.service-item{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px;display:flex;gap:12px;align-items:flex-start;margin-bottom:8px}
+.service-item{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:16px 20px;display:flex;gap:14px;align-items:center;margin-bottom:10px;transition:all .2s}
 .service-item:last-child{margin-bottom:0}
-.service-item-clickable:hover{border-color:#14b8a6;background:#f0fdfa}
-.service-item .svc-icon{font-size:24px;flex-shrink:0}
-.service-item .svc-name{font-size:14px;font-weight:600}
-.service-item .svc-desc{font-size:12px;color:#6b7280;margin-top:2px}
-.service-item .svc-dur{font-size:11px;color:#14b8a6;font-weight:600;flex-shrink:0}
+.service-item-clickable:hover{border-color:#14b8a6;background:#f0fdfa;transform:translateY(-1px);box-shadow:0 2px 8px rgba(20,184,166,.15)}
+.service-item .svc-icon{font-size:28px;flex-shrink:0}
+.service-item .svc-name{font-size:15px;font-weight:600}
+.service-item .svc-desc{font-size:13px;color:#6b7280;margin-top:2px}
+.service-item .svc-dur{font-size:12px;color:#14b8a6;font-weight:600;flex-shrink:0}
 
 /* Info chips */
-.info-chips{display:flex;gap:8px;margin:0 16px 20px}
-.info-chip{flex:1;background:#f8fafc;border-radius:8px;padding:10px;text-align:center}
-.info-chip .chip-icon{font-size:18px;margin-bottom:4px}
-.info-chip .chip-text{font-size:10px;color:#6b7280;font-weight:600}
+.info-chips{display:flex;gap:12px;margin:0 32px 24px}
+.info-chip{flex:1;background:#f8fafc;border-radius:10px;padding:14px;text-align:center}
+.info-chip .chip-icon{font-size:22px;margin-bottom:6px}
+.info-chip .chip-text{font-size:12px;color:#6b7280;font-weight:600}
 
 /* Buttons */
-.btn{display:block;background:#14b8a6;color:#fff;border:none;padding:14px 24px;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;width:calc(100% - 32px);margin:0 16px 24px;text-align:center;transition:background .2s}
+.btn{display:block;background:#14b8a6;color:#fff;border:none;padding:14px 24px;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;width:calc(100% - 64px);margin:0 32px 24px;text-align:center;transition:background .2s}
 .btn:hover{background:#0d9488}
-.btn-back{background:none;border:none;padding:0;cursor:pointer;font-size:18px;color:#6b7280}
+.btn-back{background:none;border:none;padding:0;cursor:pointer;font-size:20px;color:#6b7280;transition:color .2s}
+.btn-back:hover{color:#111827}
 
 /* Top bar with back + title */
-.screen-header{padding:16px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;gap:10px}
-.screen-header h2{font-size:16px;font-weight:700;margin:0}
+.screen-header{padding:16px 32px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;gap:12px}
+.screen-header h2{font-size:18px;font-weight:700;margin:0}
 
 /* Cal.com embed container */
-.calcom-container{padding:0 16px 24px}
-.calcom-inline{min-height:500px;border-radius:12px;overflow:hidden}
+.calcom-container{padding:0 32px 24px}
+.calcom-inline{min-height:600px;border-radius:12px;overflow:hidden}
 
 /* Confirmation */
-.confirm-wrap{padding:60px 24px;text-align:center}
-.confirm-icon{width:80px;height:80px;border-radius:50%;background:#d1fae5;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;font-size:40px}
-.confirm-wrap h2{font-size:22px;font-weight:800;margin-bottom:6px}
-.confirm-sub{font-size:13px;color:#6b7280;margin-bottom:24px}
-.confirm-reminder{padding:14px;background:#fffbeb;border:1px solid #fde68a;border-radius:10px;font-size:12px;color:#92400e;text-align:left;margin-bottom:20px}
+.confirm-wrap{padding:80px 32px;text-align:center;max-width:500px;margin:0 auto}
+.confirm-icon{width:90px;height:90px;border-radius:50%;background:#d1fae5;margin:0 auto 24px;display:flex;align-items:center;justify-content:center;font-size:44px}
+.confirm-wrap h2{font-size:26px;font-weight:800;margin-bottom:8px}
+.confirm-sub{font-size:15px;color:#6b7280;margin-bottom:28px}
+.confirm-reminder{padding:16px;background:#fffbeb;border:1px solid #fde68a;border-radius:10px;font-size:13px;color:#92400e;text-align:left;margin-bottom:24px}
+
+/* ===== Responsive: Mobile ===== */
+@media(max-width:600px){
+  .container{max-width:100%}
+  .lang-bar{padding:8px 16px;gap:4px}
+  .lang-btn{padding:5px 12px;font-size:12px}
+  .hero{padding:32px 20px}
+  .hero-icon{font-size:36px}
+  .hero h1{font-size:22px}
+  .hero-sub{font-size:13px}
+  .alert-banner{margin:16px}
+  .card{margin:0 16px 16px;padding:18px}
+  .card h2{font-size:14px}
+  .service-item{padding:14px}
+  .service-item .svc-icon{font-size:24px}
+  .service-item .svc-name{font-size:14px}
+  .service-item .svc-desc{font-size:12px}
+  .service-item .svc-dur{font-size:11px}
+  .info-chips{gap:8px;margin:0 16px 20px}
+  .info-chip{padding:10px}
+  .info-chip .chip-icon{font-size:18px}
+  .info-chip .chip-text{font-size:10px}
+  .btn{width:calc(100% - 32px);margin:0 16px 24px}
+  .screen-header{padding:14px 16px}
+  .screen-header h2{font-size:16px}
+  .calcom-container{padding:0 16px 24px}
+  .calcom-inline{min-height:500px}
+  .confirm-wrap{padding:60px 20px}
+  .confirm-icon{width:80px;height:80px;font-size:40px}
+  .confirm-wrap h2{font-size:22px}
+  .confirm-sub{font-size:13px}
+}
 </style>
 </head>
 <body>
