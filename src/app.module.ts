@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule } from '@nestjs/config';
 import configuration from './config/config.js';
-import { AppointmentsModule } from './appointments/appointments.module.js';
 import { CalcomModule } from './calcom/calcom.module.js';
 
 @Module({
@@ -11,14 +9,6 @@ import { CalcomModule } from './calcom/calcom.module.js';
       isGlobal: true,
       load: [configuration],
     }),
-    MongooseModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: async (config: ConfigService) => ({
-        uri: config.get<string>('database.connectionString'),
-      }),
-      inject: [ConfigService],
-    }),
-    AppointmentsModule,
     CalcomModule,
   ],
 })
