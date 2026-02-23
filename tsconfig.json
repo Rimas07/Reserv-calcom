@@ -22,5 +22,5 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false
   },
-  "exclude": ["frontend", "dist", "node_modules"]
+  "exclude": ["frontend", "dist", "node_modules", "functions", "l"]
 }
