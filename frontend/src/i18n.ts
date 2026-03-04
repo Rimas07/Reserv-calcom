@@ -2,7 +2,7 @@ export type Lang = 'cs' | 'en' | 'ru' | 'uk';
 
 export const translations: Record<Lang, Record<string, string>> = {
   cs: {
-    clinicName: 'Urologická klinika',
+    clinicName: 'Urologie Střešovice',
     bannerOpen: 'Online rezervace je otevřena',
     bannerSub: 'Vyberte si vhodný termín',
     ourServices: 'Služby',
@@ -19,7 +19,7 @@ export const translations: Record<Lang, Record<string, string>> = {
     backHome: 'Zpět na hlavní stránku',
   },
   en: {
-    clinicName: 'Urology Clinic',
+    clinicName: 'Urologie Střešovice',
     bannerOpen: 'Online booking is open',
     bannerSub: 'Choose your preferred time slot',
     ourServices: 'Services',
@@ -36,7 +36,7 @@ export const translations: Record<Lang, Record<string, string>> = {
     backHome: 'Back to main page',
   },
   ru: {
-    clinicName: 'Урологическая клиника',
+    clinicName: 'Urologie Střešovice',
     bannerOpen: 'Онлайн-запись открыта',
     bannerSub: 'Выберите удобное время прямо сейчас',
     ourServices: 'Услуги',
@@ -53,7 +53,7 @@ export const translations: Record<Lang, Record<string, string>> = {
     backHome: 'На главную',
   },
   uk: {
-    clinicName: 'Урологічна клініка',
+    clinicName: 'Urologie Střešovice',
     bannerOpen: 'Онлайн-запис відкритий',
     bannerSub: 'Оберіть зручний час прямо зараз',
     ourServices: 'Послуги',

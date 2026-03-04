@@ -12,7 +12,7 @@ export default function HomeScreen({ lang, onSelectService }: Props) {
         <div className="hero-icon">🩺</div>
         <h1>{t(lang, 'clinicName')}</h1>
         <p className="hero-sub">
-          📍Praha, ul. Stamicová 1968/21, Břevnov, PSČ: 16200 &middot; ☎ +420 776 540 503
+          📍Praha, ul. Stamicová 1968/21, Břevnov, PSČ: 16200<br />☎ +420 776 540 503
         </p>
       </div>
 
@@ -42,22 +42,7 @@ export default function HomeScreen({ lang, onSelectService }: Props) {
         ))}
       </div>
 
-      <div className="info-chips">
-        <div className="info-chip">
-          <div className="chip-icon">🛡</div>
-          <div className="chip-text">VZP, ČPZP, OZP</div>
-        </div>
-        <div className="info-chip">
-          <div className="chip-icon">🕐</div>
-          <div className="chip-text">{t(lang, 'hoursValue')}</div>
-        </div>
-        <div className="info-chip">
-          <div className="chip-icon">🅿️</div>
-          <div className="chip-text">{t(lang, 'parking')}</div>
-        </div>
-      </div>
-
-      <p className="book-hint">{t(lang, 'bookHint')}</p>
+      <p className="book-hint" style={{ textAlign: 'center' }}>{t(lang, 'bookHint')}</p>
     </>
   );
 }
