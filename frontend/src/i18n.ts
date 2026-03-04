@@ -79,7 +79,7 @@ export const calLocaleMap: Record<Lang, string> = {
 };
 
 export const services = [
-  { key: 'svc1', icon: '🔬', calLink: 'zorych-clinic/primarni-konzultace' },
+  { key: 'svc1', icon: '🔬', calLink: 'urologie-stresovice/primarni-konzultace' },
 ];
 
 export function t(lang: Lang, key: string): string {
