@@ -42,6 +42,13 @@ export default function HomeScreen({ lang, onSelectService }: Props) {
         ))}
       </div>
 
+      <div className="info-chips">
+        <div className="info-chip">
+          <div className="chip-icon">🅿️</div>
+          <div className="chip-text">Parkování v areálu</div>
+        </div>
+      </div>
+
       <p className="book-hint" style={{ textAlign: 'center' }}>{t(lang, 'bookHint')}</p>
     </>
   );
