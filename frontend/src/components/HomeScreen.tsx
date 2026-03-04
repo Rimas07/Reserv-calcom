@@ -12,7 +12,7 @@ export default function HomeScreen({ lang, onSelectService }: Props) {
         <div className="hero-icon">🩺</div>
         <h1>{t(lang, 'clinicName')}</h1>
         <p className="hero-sub">
-          📍Praha, ul. Stamicová 1968/21, Břevnov, PSČ: 16200 &middot; ☎ +420 222 333 444
+          📍Praha, ul. Stamicová 1968/21, Břevnov, PSČ: 16200 &middot; ☎ +420 776 540 503
         </p>
       </div>
 
